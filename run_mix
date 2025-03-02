@@ -53,13 +53,17 @@ find . -name asn1rt_nif.so -exec chmod 775 {} \;
 find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
 find . -name asn1rt_nif.so -exec ls -lah {} \;
 
-#exit 1
-mix assets.deploy
+mix assets.deploy --strip false
 
 find . -name asn1rt_nif.so -exec ls -lah {} \;
+find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
+find . -name asn1rt_nif.so -exec chmod 775 {} \;
 
 mix release --overwrite
-exit 1
+
+find . -name asn1rt_nif.so -exec ls -lah {} \;
+find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
+find . -name asn1rt_nif.so -exec chmod 775 {} \;
 
 cd _build/ios_prod/rel/todo_app
 ls -lah 
