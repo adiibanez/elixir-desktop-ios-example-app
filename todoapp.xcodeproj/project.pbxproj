@@ -346,7 +346,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"todoapp/Preview Content\"";
-				DEVELOPMENT_TEAM = 4PN2DP4655;
+				DEVELOPMENT_TEAM = 46KPTB8WG4;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = todoapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -354,7 +354,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.elixirdesktop.example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sensocto.iOSErlang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -371,7 +371,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"todoapp/Preview Content\"";
-				DEVELOPMENT_TEAM = 4PN2DP4655;
+				DEVELOPMENT_TEAM = 46KPTB8WG4;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = todoapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -379,7 +379,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.elixirdesktop.example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sensocto.iOSErlang;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "example-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
