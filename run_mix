@@ -24,7 +24,7 @@ mix local.hex --force --if-missing
 mix local.rebar --force --if-missing
 
 if [ ! -d "elixir-app" ]; then
-  git clone https://github.com/elixir-desktop/desktop-example-app.git elixir-app
+  git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
 fi
 
 # using the right runtime versions
@@ -54,7 +54,6 @@ find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
 find . -name asn1rt_nif.so -exec ls -lah {} \;
 
 #exit 1
-
 mix assets.deploy
 
 find . -name asn1rt_nif.so -exec ls -lah {} \;
