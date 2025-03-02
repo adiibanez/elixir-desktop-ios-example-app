@@ -71,8 +71,11 @@ mix release --overwrite
 # find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
 # find . -name asn1rt_nif.so -exec chmod 775 {} \;
 
-cd _build/ios_prod/rel/todo_app
+#cd _build/ios_prod/rel/todo_app
+
+cd _build/ios_prod/rel/default_release/
 ls -lah 
 
-zip -9r "$BASE/todoapp/app.zip" lib/ releases/ --exclude "*.so" --include "*.data"
+zip -9r "$BASE/todoapp/app.zip" lib/ releases/ --exclude "*.so" 
+#--include "*.data"
 unzip -l "$BASE/todoapp/app.zip"
