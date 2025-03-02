@@ -33,6 +33,7 @@ if [ ! -f "elixir/.tool-versions" ]; then
 fi
 
 cd elixir-app
+mix deps.get
 
 if [ ! -d "deps/desktop" ]; then
   mix deps.get
@@ -46,8 +47,23 @@ if [ -f "$BASE/todoapp/app.zip" ]; then
   rm "$BASE/todoapp/app.zip"
 fi
 
-mix assets.deploy && \
-  mix release --overwrite && \
-  cd _build/ios_prod/rel/todo_app && \
-  zip -9r "$BASE/todoapp/app.zip" lib/ releases/ --exclude "*.so"
+echo "FIND files ..."
+find . -name start_erl.data
+find . -name asn1rt_nif.so -exec chmod 775 {} \;
+find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
+find . -name asn1rt_nif.so -exec ls -lah {} \;
 
+#exit 1
+
+mix assets.deploy
+
+find . -name asn1rt_nif.so -exec ls -lah {} \;
+
+mix release --overwrite
+exit 1
+
+cd _build/ios_prod/rel/todo_app
+ls -lah 
+
+zip -9r "$BASE/todoapp/app.zip" lib/ releases/ --exclude "*.so" --include "*.data"
+unzip -l "$BASE/todoapp/app.zip"
