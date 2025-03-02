@@ -25,7 +25,11 @@ mix local.rebar --force --if-missing
 
 if [ ! -d "elixir-app" ]; then
   git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
+  # git clone --local ../desktop-example-app elixir-app
+  #ln -s ../desktop-example-app elixir-app
 fi
+
+#git pull origin
 
 # using the right runtime versions
 if [ ! -f "elixir/.tool-versions" ]; then
@@ -49,21 +53,23 @@ fi
 
 echo "FIND files ..."
 find . -name start_erl.data
-find . -name asn1rt_nif.so -exec chmod 775 {} \;
-find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
-find . -name asn1rt_nif.so -exec ls -lah {} \;
+find . -name asn1rt_nif.so -exec chmod 775 {} \; || true
+find . -name asn1rt_nif.so -exec chown $(whoami) {} \; || true
+find . -name asn1rt_nif.so -exec ls -lah {} \; || true
+find . -name asn1rt_nif.so -exec rm -f {} \; || true
 
+#exit 1
 mix assets.deploy --strip false
 
-find . -name asn1rt_nif.so -exec ls -lah {} \;
-find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
-find . -name asn1rt_nif.so -exec chmod 775 {} \;
+# find . -name asn1rt_nif.so -exec ls -lah {} \;
+# find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
+# find . -name asn1rt_nif.so -exec chmod 775 {} \;
 
 mix release --overwrite
 
-find . -name asn1rt_nif.so -exec ls -lah {} \;
-find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
-find . -name asn1rt_nif.so -exec chmod 775 {} \;
+# find . -name asn1rt_nif.so -exec ls -lah {} \;
+# find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
+# find . -name asn1rt_nif.so -exec chmod 775 {} \;
 
 cd _build/ios_prod/rel/todo_app
 ls -lah 
