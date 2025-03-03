@@ -149,6 +149,12 @@ jobs:
         echo "Hash of Cartfile.resolved after Carthage Update:"
         shasum Cartfile.resolved
 
+
+    - name: Clone elixir-app
+      shell: bash
+      run: |
+        git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
+
     - name: Phx deps Cache
       uses: actions/cache@v4
       id: phx-deps-cache
