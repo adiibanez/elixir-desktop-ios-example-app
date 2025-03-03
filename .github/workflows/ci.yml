@@ -258,7 +258,8 @@ jobs:
       if: steps.boot-simulator.outcome == 'success'
       run: |
         SCREENSHOT_FILE="simulator_screenshot.png"
-        xcrun simctl screenshot ${{ env.IPAD_UUID }} "$SCREENSHOT_FILE"
+        xcrun simctl io booted screenshot --type png "$SCREENSHOT_FILE"
+        # xcrun simctl screenshot ${{ env.IPAD_UUID }} "$SCREENSHOT_FILE"
         echo "Simulator screenshot saved to $SCREENSHOT_FILE"
 
     - name: Upload Simulator Screenshot Artifact
