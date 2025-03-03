@@ -12,7 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
     - name: Install brew dependencies
       run: |
         # carthage npm
@@ -122,21 +121,22 @@ jobs:
         xcrun simctl list devices available
         echo "--- End of xcrun simctl list devices available output ---"
 
-        # Get list of available iPad simulators
-        ipad_simulators=$(xcrun simctl list devices available | grep -o 'iPad .* \([0-9A-F-]*\)' | awk '{print $NF}' | tr -d '()')
+        # Get list of available iPad simulators - REVISED GREP and PIPELINE
+        ipad_simulators=$(xcrun simctl list devices available | grep 'iPad' | grep -o '[0-9A-F-]+')
 
-        echo "--- Raw ipad_simulators variable ---"
+        echo "--- Raw ipad_simulators variable (REVISED) ---"
         echo "$ipad_simulators"
-        echo "--- End of Raw ipad_simulators variable ---"
+        echo "--- End of Raw ipad_simulators variable (REVISED) ---"
 
         if [[ -z "$ipad_simulators" ]]; then
           echo "::error::No available iPad simulators found."
-          echo "::set-output name=ipad_uuid::Shutdown" # Modified to output "Shutdown" explicitly in error case
+          echo "IPAD_UUID=Shutdown" >> "$GITHUB_ENV"
           exit 1
         else
-          # Get the first iPad simulator UUID from the list
+          # Get the first iPad simulator UUID from the list - SIMPLIFIED
           first_ipad_uuid=$(echo "$ipad_simulators" | head -n 1)
-          echo "::set-output name=ipad_uuid::$first_ipad_uuid"
+
+          echo "IPAD_UUID=$first_ipad_uuid" >> "$GITHUB_ENV"
           echo "Using iPad Simulator UUID: $first_ipad_uuid"
         fi
 
