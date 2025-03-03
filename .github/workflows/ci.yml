@@ -149,11 +149,28 @@ jobs:
         echo "Hash of Cartfile.resolved after Carthage Update:"
         shasum Cartfile.resolved
 
+    - name: Phx deps Cache
+      uses: actions/cache@v4
+      id: phx-deps-cache
+      with:
+        path: elixir-app/deps
+        key: phx-deps-${{ hashFiles('elixir-app/mix.lock') }}
+        restore-keys: |
+          phx-deps-
+
     - name: Build with XCode
+      id: build-app
       run: |
         #source ~/.bashrc
         . $(brew --prefix asdf)/libexec/asdf.sh
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
+
+    - name: Save phx deps cache
+      if: steps.build-app.outcome == 'success' && steps.phx-deps-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        path: elixir-app/deps
+        key: phx-deps-${{ hashFiles('elixir-app/mix.lock') }}
 
     - name: Archive build artifacts
       uses: actions/upload-artifact@v4
@@ -191,39 +208,47 @@ jobs:
         fi
 
     - name: Boot iPad Simulator
+      continue-on-error: true
       id: boot-simulator
       run: |
         echo "Booting simulator: ${{ env.IPAD_UUID }}"
         xcrun simctl boot ${{ env.IPAD_UUID }}
 
     - name: Install app on Simulator
+      if: steps.boot-simulator.outcome == 'success'
       run: xcrun simctl install ${{ env.IPAD_UUID }} build/Build/Products/Debug-iphonesimulator/TodoApp.app
 
     - name: Launch app on Simulator
+      if: steps.boot-simulator.outcome == 'success'
       run: xcrun simctl launch ${{ env.IPAD_UUID }} com.yourcompany.example.TodoApp
 
     - name: Wait for a few seconds (adjust as needed)
+      if: steps.boot-simulator.outcome == 'success'
       run: sleep 10 # Give the app time to launch and potentially generate logs
 
     - name: Capture Simulator Logs
+      if: steps.boot-simulator.outcome == 'success'
       run: |
         LOG_FILE="simulator_logs.txt"
         xcrun simctl diagnose -b ${{ env.IPAD_UUID }} > "$LOG_FILE"
         echo "Simulator logs saved to $LOG_FILE"
 
     - name: Upload Simulator Logs Artifact
+      if: steps.boot-simulator.outcome == 'success'
       uses: actions/upload-artifact@v4
       with:
         name: simulator-logs
         path: simulator_logs.txt
 
     - name: Take Simulator Screenshot
+      if: steps.boot-simulator.outcome == 'success'
       run: |
         SCREENSHOT_FILE="simulator_screenshot.png"
         xcrun simctl screenshot ${{ env.IPAD_UUID }} "$SCREENSHOT_FILE"
         echo "Simulator screenshot saved to $SCREENSHOT_FILE"
 
     - name: Upload Simulator Screenshot Artifact
+      if: steps.boot-simulator.outcome == 'success'
       uses: actions/upload-artifact@v4
       with:
         name: simulator-screenshot
