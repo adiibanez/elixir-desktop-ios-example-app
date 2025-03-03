@@ -33,7 +33,6 @@ jobs:
         # echo '. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash' >> ~/.bashrc
         source ~/.bashrc # Load asdf into the current shell
 
-
     - name: "Installing Erlang"
       id: asdf-install
       if: steps.asdf-cache.outputs.cache-hit != 'true'
