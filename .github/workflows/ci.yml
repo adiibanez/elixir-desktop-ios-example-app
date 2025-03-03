@@ -239,27 +239,11 @@ jobs:
       if: steps.launch-app.outcome == 'success'
       run: sleep 10 # Give the app time to launch and potentially generate logs
 
-    - name: Capture Simulator Logs
-      continue-on-error: true
-      id: capture-logs
-      if: steps.boot-simulator.outcome == 'success'
-      run: |
-        LOG_FILE="simulator_logs.txt"
-        xcrun simctl diagnose -b ${{ env.IPAD_UUID }} > "$LOG_FILE"
-        echo "Simulator logs saved to $LOG_FILE"
-
-    - name: Upload Simulator Logs Artifact
-      if: steps.capture-logs.outcome == 'success'
-      uses: actions/upload-artifact@v4
-      with:
-        name: simulator-logs
-        path: simulator_logs.txt
-
     - name: Take Simulator Screenshot
       if: steps.boot-simulator.outcome == 'success'
       run: |
-        SCREENSHOT_FILE="simulator_screenshot.png"
-        xcrun simctl io booted screenshot --type png "$SCREENSHOT_FILE"
+        SCREENSHOT_FILE="simulator_screenshot.jpg"
+        xcrun simctl io booted screenshot "$SCREENSHOT_FILE"
         # xcrun simctl screenshot ${{ env.IPAD_UUID }} "$SCREENSHOT_FILE"
         echo "Simulator screenshot saved to $SCREENSHOT_FILE"
 
@@ -269,6 +253,24 @@ jobs:
       with:
         name: simulator-screenshot
         path: simulator_screenshot.png
+
+
+    - name: Capture Simulator Logs
+      continue-on-error: true
+      id: capture-logs
+      if: steps.boot-simulator.outcome == 'success'
+      run: |
+        echo "" | xcrun simctl diagnose -b -X -udid=${{ env.IPAD_UUID }} --no-archive
+
+    - name: Upload Simulator Logs Artifact
+      if: steps.capture-logs.outcome == 'success'
+      uses: actions/upload-artifact@v4
+      with:
+        name: simulator-logs
+        path: |
+          /private/tmp/simctl_diagnose_*/*.log
+          /private/tmp/simctl_diagnose_*/*.plist
+
 
     - name: Shutdown Simulator
       if: steps.boot-simulator.outcome == 'success'
