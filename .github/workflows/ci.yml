@@ -30,30 +30,39 @@ jobs:
 
     - name: Validate asdf installation
       id: validate-asdf
+      shell: bash
+      continue-on-error: true
       run: |
-        # Initialize asdf if present, don't fail if not
+        # Make sure we don't fail on errors
+        set +e
+        
+        # Initialize asdf if present
         source $(brew --prefix asdf)/libexec/asdf.sh || true
         
         # Initialize asdf plugins if they exist
         if [ -d "/Users/runner/.asdf" ]; then
-          asdf plugin add erlang || true
-          asdf plugin add elixir || true
-          asdf plugin add nodejs || true
+          # Add or update plugins without failing
+          (asdf plugin list | grep -q "^erlang") || asdf plugin add erlang || true
+          (asdf plugin list | grep -q "^elixir") || asdf plugin add elixir || true
+          (asdf plugin list | grep -q "^nodejs") || asdf plugin add nodejs || true
           
-          # Check installations
-          if ! asdf which erl >/dev/null 2>&1 || ! asdf which elixir >/dev/null 2>&1; then
+          # Check installations without failing
+          if ! asdf which erl > /dev/null 2>&1 || ! asdf which elixir > /dev/null 2>&1; then
             echo "::warning::asdf installations not found or corrupted, clearing cache"
-            rm -rf /Users/runner/.asdf/installs/* || true
-            rm -rf ~/.asdf/installs/* || true
+            rm -rf /Users/runner/.asdf/installs/* 2>/dev/null || true
+            rm -rf ~/.asdf/installs/* 2>/dev/null || true
             echo "ASDF_INVALID=true" >> $GITHUB_ENV
           else
-            echo "asdf installations validated"
+            echo "asdf installations validated successfully"
             asdf current || true
           fi
         else
           echo "::warning::asdf not initialized yet, marking as invalid"
           echo "ASDF_INVALID=true" >> $GITHUB_ENV
         fi
+        
+        # Always exit successfully
+        exit 0
 
     - name: Configure asdf version manager
       run: |
