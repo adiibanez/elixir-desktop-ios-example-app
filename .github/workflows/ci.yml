@@ -116,7 +116,7 @@ jobs:
         echo "--- End of xcrun simctl list devices available output ---"
 
         # Get list of available iPad simulators - REVISED GREP and PIPELINE
-        ipad_simulators=$(xcrun simctl list devices available | grep 'iPad' | grep -o '[0-9A-F-]+')
+        ipad_simulators=$(xcrun simctl list devices available | grep 'iPad' | awk -F'[()]' '/iPad/{print $4}')
 
         echo "--- Raw ipad_simulators variable (REVISED) ---"
         echo "$ipad_simulators"
