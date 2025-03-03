@@ -21,7 +21,7 @@ jobs:
     - name: Build with XCode
       run: |
         carthage update --use-xcframeworks 
-        xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "ExampleApp" -derivedDataPath build/
+        xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
 
     - name: Archive build artifacts
       uses: actions/upload-artifact@v4
