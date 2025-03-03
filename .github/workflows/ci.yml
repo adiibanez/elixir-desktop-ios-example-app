@@ -28,6 +28,8 @@ jobs:
       run: |
         brew install asdf
         echo '. $(brew --prefix asdf)/libexec/asdf.sh' >> ~/.bashrc
+        echo '. $(brew --prefix asdf)/libexec/asdf.sh' >> .env
+
         # echo '. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash' >> ~/.bashrc
         source ~/.bashrc # Load asdf into the current shell
 
@@ -67,14 +69,14 @@ jobs:
     #     asdf global erlang $ASDF_ERLANG_VERSION
     #     asdf global elixir $ASDF_ELIXIR_VERSION
 
-    # - name: Save asdf Cache
-    #   if: steps.asdf-install.outcome == 'success' && steps.asdf-cache.outputs.cache-hit != 'true'
-    #   uses: actions/cache/save@v3
-    #   with:
-    #     path: |
-    #       /Users/runner/.asdf
-    #     #key:  macos-asdf-${{ env.WXWIDGETS_VERSION }}-otp-${{ env.OTP_VERSION }}
-    #     key:  macos-asdf
+    - name: Save asdf Cache
+      if: steps.asdf-install.outcome == 'success' && steps.asdf-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        path: |
+          /Users/runner/.asdf
+        #key:  macos-asdf-${{ env.WXWIDGETS_VERSION }}-otp-${{ env.OTP_VERSION }}
+        key:  macos-asdf
 
     - name: Carthage Cache
       uses: actions/cache@v4
@@ -93,12 +95,22 @@ jobs:
         echo "Carthage Cache Key: carthage-deps-${{ hashFiles('Cartfile.resolved') }}"
 
     - name: Carthage Update
+      id: carthage-update
       if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: |
         #source ~/.bashrc
         . $(brew --prefix asdf)/libexec/asdf.sh
         carthage update --use-xcframeworks
         ls -lah Carthage
+
+
+    - name: Save carthage Cache
+      if: steps.carthage-update.outcome == 'success' && steps.carthage-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        path: |
+          Carthage
+        key:  carthage-deps
 
     - name: Print Cartfile.resolved Hash (After Update)
       if: steps.carthage-cache.outputs.cache-hit != 'true' # Only run if Carthage Update ran
