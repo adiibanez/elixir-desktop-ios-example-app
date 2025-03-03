@@ -21,7 +21,16 @@ jobs:
     - name: Build with XCode
       run: |
         carthage update --use-xcframeworks 
-        xcodebuild -sdk iphonesimulator -arch arm64
+                xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
+                
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-build
+        path: |
+          build/Build/Products/Debug-iphonesimulator/
+          build/Build/Products/**/*.app
+        retention-days: 30
 
     # xcodebuild clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
 
