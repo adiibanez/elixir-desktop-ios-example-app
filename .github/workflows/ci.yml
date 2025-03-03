@@ -260,7 +260,8 @@ jobs:
       id: capture-logs
       if: steps.boot-simulator.outcome == 'success'
       run: |
-        echo "" | xcrun simctl diagnose -b -X -udid=${{ env.IPAD_UUID }} --no-archive
+        echo "" | xcrun simctl diagnose -b -X --no-archive
+        # -udid=${{ env.IPAD_UUID }}
 
     - name: Upload Simulator Logs Artifact
       if: steps.capture-logs.outcome == 'success'
