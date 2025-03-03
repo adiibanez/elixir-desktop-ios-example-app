@@ -96,6 +96,9 @@ jobs:
 
     - name: Carthage Update
       id: carthage-update
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: |
         #source ~/.bashrc
