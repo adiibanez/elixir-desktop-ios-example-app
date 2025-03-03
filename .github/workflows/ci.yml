@@ -9,9 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Elixir and other dependencies
+    - name: Install brew dependencies
       run: |
-        brew install carthage git npm
+        brew install carthage git npm wxwidgets
         
     - name: Install asdf version manager
       run: |
@@ -36,11 +36,13 @@ jobs:
 
     - name: Set up hex & rebar
       run: |
+        source ~/.bashrc
         mix local.hex --force
         mix local.rebar --force
 
     - name: Build with XCode
       run: |
+        source ~/.bashrc
         carthage update --use-xcframeworks
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
 
