@@ -16,8 +16,8 @@ jobs:
     - name: Install asdf version manager
       run: |
         brew install asdf
-        echo '. $(brew --prefix asdf)/asdf.sh' >> ~/.bashrc
-        echo '. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash' >> ~/.bashrc
+        echo '. $(brew --prefix asdf)/libexec/asdf.sh' >> ~/.bashrc
+        # echo '. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash' >> ~/.bashrc
         source ~/.bashrc # Load asdf into the current shell
 
     - name: Install Erlang and Elixir via asdf
