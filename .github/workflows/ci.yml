@@ -24,7 +24,7 @@ jobs:
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "ExampleApp" -derivedDataPath build/
 
     - name: Archive build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ios-build
         path: |
