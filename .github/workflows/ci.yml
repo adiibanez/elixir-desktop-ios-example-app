@@ -28,41 +28,37 @@ jobs:
           macos-asdf-${{ env.ERLANG_VERSION }}-${{ env.ELIXIR_VERSION }}-
           macos-asdf-
 
+    - name: Configure shell environment
+      run: |
+        # Set up persistent asdf environment
+        echo 'source $(brew --prefix asdf)/libexec/asdf.sh' >> $GITHUB_ENV
+        echo 'export ASDF_DIR="/Users/runner/.asdf"' >> $GITHUB_ENV
+        echo 'export ASDF_DATA_DIR="/Users/runner/.asdf"' >> $GITHUB_ENV
+        echo "/Users/runner/.asdf/shims" >> $GITHUB_PATH
+        echo "/Users/runner/.asdf/bin" >> $GITHUB_PATH
+
     - name: Validate asdf installation
       id: validate-asdf
       shell: bash
-      continue-on-error: true
       run: |
-        # Make sure we don't fail on errors
-        set +e
-        
-        # Initialize asdf if present
+        # Load asdf without failing
         source $(brew --prefix asdf)/libexec/asdf.sh || true
         
-        # Initialize asdf plugins if they exist
-        if [ -d "/Users/runner/.asdf" ]; then
-          # Add or update plugins without failing
-          (asdf plugin list | grep -q "^erlang") || asdf plugin add erlang || true
-          (asdf plugin list | grep -q "^elixir") || asdf plugin add elixir || true
-          (asdf plugin list | grep -q "^nodejs") || asdf plugin add nodejs || true
-          
-          # Check installations without failing
-          if ! asdf which erl > /dev/null 2>&1 || ! asdf which elixir > /dev/null 2>&1; then
-            echo "::warning::asdf installations not found or corrupted, clearing cache"
-            rm -rf /Users/runner/.asdf/installs/* 2>/dev/null || true
-            rm -rf ~/.asdf/installs/* 2>/dev/null || true
-            echo "ASDF_INVALID=true" >> $GITHUB_ENV
-          else
-            echo "asdf installations validated successfully"
-            asdf current || true
-          fi
-        else
-          echo "::warning::asdf not initialized yet, marking as invalid"
-          echo "ASDF_INVALID=true" >> $GITHUB_ENV
-        fi
+        # Reshim after cache restore to ensure binaries are available
+        asdf reshim || true
         
-        # Always exit successfully
-        exit 0
+        # Verify installations
+        if ! (asdf which erl && asdf which elixir && asdf which mix) > /dev/null 2>&1; then
+          echo "::warning::asdf installations need rebuild"
+          echo "ASDF_INVALID=true" >> $GITHUB_ENV
+          rm -rf /Users/runner/.asdf/installs/* 2>/dev/null || true
+        else
+          echo "asdf installations valid:"
+          asdf current
+          # Verify PATH and shims
+          echo "PATH: $PATH"
+          ls -la /Users/runner/.asdf/shims/ || true
+        fi
 
     - name: Configure asdf version manager
       run: |
