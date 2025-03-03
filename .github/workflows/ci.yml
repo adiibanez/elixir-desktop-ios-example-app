@@ -238,7 +238,9 @@ jobs:
     - name: Take Simulator Screenshot
       if: steps.boot-simulator.outcome == 'success'
       run: |
-        sleep 10
+        echo "Going to sleep for 30sec ..."
+        sleep 30
+        echo "... back in town."
         SCREENSHOT_FILE="simulator_screenshot.jpg"
         xcrun simctl io booted screenshot "$SCREENSHOT_FILE"
         # xcrun simctl screenshot ${{ env.IPAD_UUID }} "$SCREENSHOT_FILE"
