@@ -48,6 +48,10 @@ jobs:
         echo "nodejs 23.9.0" >> .tool-versions
         export KERL_CONFIGURE_OPTIONS="--enable-parallel-configure --with-wxdir=`brew --prefix wxwidgets` --disable-jit --without-javac --disable-debug CXX='gcc -std=c++11'"
         asdf install
+        asdf current
+
+        mix local.hex --force
+        mix local.rebar --force
 
     # - name: Install Erlang and Elixir via asdf
     #   id: asdf-install2
@@ -63,16 +67,6 @@ jobs:
 
     #     asdf global erlang $ASDF_ERLANG_VERSION
     #     asdf global elixir $ASDF_ELIXIR_VERSION
-
-    - name: Set up hex & rebar
-      run: |
-        #source ~/.bashrc
-        . $(brew --prefix asdf)/libexec/asdf.sh
-        ls -lah ~/.asdf/installs/elixir/${{ env.ELIXIR_VERSION }}/bin
-        asdf current
-
-        mix local.hex --force
-        mix local.rebar --force
 
     - name: Save asdf Cache
       if: steps.asdf-install.outcome == 'success' && steps.asdf-cache.outputs.cache-hit != 'true'
