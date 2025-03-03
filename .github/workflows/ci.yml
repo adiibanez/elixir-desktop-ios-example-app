@@ -14,7 +14,6 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install brew dependencies
       run: |
-        # carthage npm
         brew install wxwidgets
     
     - name: Asdf Cache
@@ -68,14 +67,14 @@ jobs:
     #     asdf global erlang $ASDF_ERLANG_VERSION
     #     asdf global elixir $ASDF_ELIXIR_VERSION
 
-    - name: Save asdf Cache
-      if: steps.asdf-install.outcome == 'success' && steps.asdf-cache.outputs.cache-hit != 'true'
-      uses: actions/cache/save@v3
-      with:
-        path: |
-          /Users/runner/.asdf
-        #key:  macos-asdf-${{ env.WXWIDGETS_VERSION }}-otp-${{ env.OTP_VERSION }}
-        key:  macos-asdf
+    # - name: Save asdf Cache
+    #   if: steps.asdf-install.outcome == 'success' && steps.asdf-cache.outputs.cache-hit != 'true'
+    #   uses: actions/cache/save@v3
+    #   with:
+    #     path: |
+    #       /Users/runner/.asdf
+    #     #key:  macos-asdf-${{ env.WXWIDGETS_VERSION }}-otp-${{ env.OTP_VERSION }}
+    #     key:  macos-asdf
 
     - name: Carthage Cache
       uses: actions/cache@v4
@@ -150,13 +149,13 @@ jobs:
 
     - name: Boot iPad Simulator
       id: boot-simulator
-      run: xcrun simctl boot ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }}
+      run: xcrun simctl boot ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }}
 
     - name: Install app on Simulator
-      run: xcrun simctl install ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }} build/Build/Products/Debug-iphonesimulator/TodoApp.app # Adjust TodoApp.app if your app name is different
+      run: xcrun simctl install ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} build/Build/Products/Debug-iphonesimulator/TodoApp.app # Adjust TodoApp.app if your app name is different
 
     - name: Launch app on Simulator
-      run: xcrun simctl launch ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }} com.yourcompany.example.TodoApp # Replace com.yourcompany.example.TodoApp with your app's bundle identifier. You might need to get this from your Xcode project's Info.plist
+      run: xcrun simctl launch ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} com.yourcompany.example.TodoApp # Replace com.yourcompany.example.TodoApp with your app's bundle identifier. You might need to get this from your Xcode project's Info.plist
 
     - name: Wait for a few seconds (adjust as needed)
       run: sleep 10 # Give the app time to launch and potentially generate logs
@@ -164,7 +163,7 @@ jobs:
     - name: Capture Simulator Logs
       run: |
         LOG_FILE="simulator_logs.txt"
-        xcrun simctl diagnose -b ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }} > "$LOG_FILE"
+        xcrun simctl diagnose -b ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} > "$LOG_FILE"
         echo "Simulator logs saved to $LOG_FILE"
 
     - name: Upload Simulator Logs Artifact
@@ -176,7 +175,7 @@ jobs:
     - name: Take Simulator Screenshot
       run: |
         SCREENSHOT_FILE="simulator_screenshot.png"
-        xcrun simctl screenshot ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }} "$SCREENSHOT_FILE"
+        xcrun simctl screenshot ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} "$SCREENSHOT_FILE"
         echo "Simulator screenshot saved to $SCREENSHOT_FILE"
 
     - name: Upload Simulator Screenshot Artifact
@@ -188,4 +187,4 @@ jobs:
     - name: Shutdown Simulator
       if: steps.boot-simulator.outcome == 'success'
       #if: always() # Ensure simulator is shutdown even if previous steps fail
-      run: xcrun simctl shutdown ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }}
+      run: xcrun simctl shutdown ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }}
