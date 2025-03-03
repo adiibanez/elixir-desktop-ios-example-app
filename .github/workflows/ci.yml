@@ -82,9 +82,15 @@ jobs:
       id: carthage-cache
       with:
         path: Carthage # Carthage build directory
-        key: carthage-deps-${{ hashFiles('Cartfile.resolved') }}
-        restore-keys: |
-          carthage-deps-
+        #key: carthage-deps-${{ hashFiles('Cartfile.resolved') }}
+        key: carthage-deps
+        #restore-keys: |
+        #  carthage-deps-
+
+    - name: Print Carthage Cache Status
+      run: |
+        echo "Carthage Cache Hit: ${{ steps.carthage-cache.outputs.cache-hit }}"
+        echo "Carthage Cache Key: carthage-deps-${{ hashFiles('Cartfile.resolved') }}"
 
     - name: Carthage Update
       run: |
@@ -92,6 +98,12 @@ jobs:
         . $(brew --prefix asdf)/libexec/asdf.sh
         carthage update --use-xcframeworks
       if: steps.carthage-cache.outputs.cache-hit != 'true'
+
+    - name: Print Cartfile.resolved Hash (After Update)
+      if: steps.carthage-cache.outputs.cache-hit != 'true' # Only run if Carthage Update ran
+      run: |
+        echo "Hash of Cartfile.resolved after Carthage Update:"
+        shasum Cartfile.resolved
 
     - name: Build with XCode
       run: |
