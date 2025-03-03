@@ -149,8 +149,7 @@ jobs:
         echo "Hash of Cartfile.resolved after Carthage Update:"
         shasum Cartfile.resolved
 
-
-    - name: Clone elixir-app
+    - name: Checkout elixir-app
       shell: bash
       run: |
         git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
@@ -162,7 +161,6 @@ jobs:
         path: |
           elixir-app/deps
           elixir-app/_build
-
         key: phx-deps-${{ hashFiles('elixir-app/mix.lock') }}
         restore-keys: |
           phx-deps-
@@ -174,12 +172,12 @@ jobs:
         . $(brew --prefix asdf)/libexec/asdf.sh
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
 
-    # - name: Save phx deps cache
-    #   if: steps.build-app.outcome == 'success' && steps.phx-deps-cache.outputs.cache-hit != 'true'
-    #   uses: actions/cache/save@v3
-    #   with:
-    #     path: elixir-app/deps
-    #     key: phx-deps-${{ hashFiles('elixir-app/mix.lock') }}
+    - name: Save phx deps cache
+      if: steps.build-app.outcome == 'success' && steps.phx-deps-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        path: elixir-app/deps
+        key: phx-deps-${{ hashFiles('elixir-app/mix.lock') }}
 
     - name: Archive build artifacts
       uses: actions/upload-artifact@v4
