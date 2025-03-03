@@ -20,10 +20,30 @@ jobs:
       uses: actions/cache@v3
       id: asdf-cache
       with:
-        path: /Users/runner/.asdf
-        #key: macos-asdf-${{ env.WXWIDGETS_VERSION }}-otp-${{ env.OTP_VERSION }}
-        key: macos-asdf
+        path: |
+          /Users/runner/.asdf
+          ~/.asdf
+        key: macos-asdf-${{ env.ERLANG_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('.tool-versions') }}
+        restore-keys: |
+          macos-asdf-${{ env.ERLANG_VERSION }}-${{ env.ELIXIR_VERSION }}-
+          macos-asdf-
+
+    - name: Validate asdf installation
+      id: validate-asdf
+      run: |
+        . $(brew --prefix asdf)/libexec/asdf.sh
         
+        # Check if installations exist and are valid
+        if ! asdf which erl >/dev/null 2>&1 || ! asdf which elixir >/dev/null 2>&1; then
+          echo "::warning::asdf installations not found or corrupted, clearing cache"
+          rm -rf /Users/runner/.asdf/installs/*
+          rm -rf ~/.asdf/installs/*
+          echo "ASDF_INVALID=true" >> $GITHUB_ENV
+        else
+          echo "asdf installations validated"
+          asdf current
+        fi
+
     - name: Configure asdf version manager
       run: |
         echo '. $(brew --prefix asdf)/libexec/asdf.sh' >> ~/.bashrc
@@ -32,50 +52,42 @@ jobs:
         # echo '. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash' >> ~/.bashrc
         source ~/.bashrc # Load asdf into the current shell
 
-    - name: "Installing Erlang"
-      id: asdf-install
-      if: steps.asdf-cache.outputs.cache-hit != 'true'
+    - name: "Installing Erlang/Elixir"
+      if: steps.asdf-cache.outputs.cache-hit != 'true' || env.ASDF_INVALID == 'true'
       run: |
         . $(brew --prefix asdf)/libexec/asdf.sh
-        asdf plugin add erlang
-        asdf plugin add elixir
-        asdf plugin add nodejs
-        #echo "erlang ref:${{ env.OTP_VERSION }}" >> .tool-versions
-        # reset any files in the repo
+        
+        # Clean tool-versions file
         echo '' > .tool-versions
         echo "erlang ${{ env.ERLANG_VERSION }}" >> .tool-versions
         echo "elixir ${{ env.ELIXIR_VERSION }}" >> .tool-versions
         echo "nodejs 23.9.0" >> .tool-versions
+        
+        # Install plugins if needed
+        asdf plugin add erlang || true
+        asdf plugin add elixir || true
+        asdf plugin add nodejs || true
+        
+        # Configure and install
         export KERL_CONFIGURE_OPTIONS="--enable-parallel-configure --with-wxdir=`brew --prefix wxwidgets` --disable-jit --without-javac --disable-debug CXX='gcc -std=c++11'"
         asdf install
         asdf current
-
+        
+        # Ensure mix is available
+        which mix || echo "mix not found in PATH"
+        asdf which mix || echo "mix not found in asdf"
+        
         mix local.hex --force
         mix local.rebar --force
 
-    # - name: Install Erlang and Elixir via asdf
-    #   id: asdf-install2
-    #   run: |
-    #     asdf plugin-add erlang
-    #     asdf plugin-add elixir
-    #     # Replace with your desired Erlang and Elixir versions
-    #     ASDF_ERLANG_VERSION=26.2.5.6
-    #     ASDF_ELIXIR_VERSION=1.16.3-otp-26
-
-    #     asdf install erlang $ASDF_ERLANG_VERSION
-    #     asdf install elixir $ASDF_ELIXIR_VERSION
-
-    #     asdf global erlang $ASDF_ERLANG_VERSION
-    #     asdf global elixir $ASDF_ELIXIR_VERSION
-
     - name: Save asdf Cache
-      if: steps.asdf-install.outcome == 'success' && steps.asdf-cache.outputs.cache-hit != 'true'
+      if: (steps.asdf-install.outcome == 'success' || env.ASDF_INVALID == 'true') && steps.asdf-cache.outputs.cache-hit != 'true'
       uses: actions/cache/save@v3
       with:
         path: |
           /Users/runner/.asdf
-        #key:  macos-asdf-${{ env.WXWIDGETS_VERSION }}-otp-${{ env.OTP_VERSION }}
-        key:  macos-asdf
+          ~/.asdf
+        key: macos-asdf-${{ env.ERLANG_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('.tool-versions') }}
 
     - name: Carthage Cache
       uses: actions/cache@v4
@@ -164,14 +176,14 @@ jobs:
     - name: Boot iPad Simulator
       id: boot-simulator
       run: |
-        echo Booting: xcrun simctl boot --arch x86_64 ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }}
-        xcrun simctl boot --arch x86_64 ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }}
+        echo "Booting simulator: ${{ env.IPAD_UUID }}"
+        xcrun simctl boot ${{ env.IPAD_UUID }}
 
     - name: Install app on Simulator
-      run: xcrun simctl install ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} build/Build/Products/Debug-iphonesimulator/TodoApp.app # Adjust TodoApp.app if your app name is different
+      run: xcrun simctl install ${{ env.IPAD_UUID }} build/Build/Products/Debug-iphonesimulator/TodoApp.app
 
     - name: Launch app on Simulator
-      run: xcrun simctl launch ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} com.yourcompany.example.TodoApp # Replace com.yourcompany.example.TodoApp with your app's bundle identifier. You might need to get this from your Xcode project's Info.plist
+      run: xcrun simctl launch ${{ env.IPAD_UUID }} com.yourcompany.example.TodoApp
 
     - name: Wait for a few seconds (adjust as needed)
       run: sleep 10 # Give the app time to launch and potentially generate logs
@@ -179,7 +191,7 @@ jobs:
     - name: Capture Simulator Logs
       run: |
         LOG_FILE="simulator_logs.txt"
-        xcrun simctl diagnose -b ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} > "$LOG_FILE"
+        xcrun simctl diagnose -b ${{ env.IPAD_UUID }} > "$LOG_FILE"
         echo "Simulator logs saved to $LOG_FILE"
 
     - name: Upload Simulator Logs Artifact
@@ -191,7 +203,7 @@ jobs:
     - name: Take Simulator Screenshot
       run: |
         SCREENSHOT_FILE="simulator_screenshot.png"
-        xcrun simctl screenshot ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} "$SCREENSHOT_FILE"
+        xcrun simctl screenshot ${{ env.IPAD_UUID }} "$SCREENSHOT_FILE"
         echo "Simulator screenshot saved to $SCREENSHOT_FILE"
 
     - name: Upload Simulator Screenshot Artifact
@@ -202,5 +214,4 @@ jobs:
 
     - name: Shutdown Simulator
       if: steps.boot-simulator.outcome == 'success'
-      #if: always() # Ensure simulator is shutdown even if previous steps fail
-      run: xcrun simctl shutdown ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }}
+      run: xcrun simctl shutdown ${{ env.IPAD_UUID }}
