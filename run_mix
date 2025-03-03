@@ -79,4 +79,4 @@ ls -lah
 
 zip -9r "$BASE/todoapp/app.zip" lib/ releases/ --exclude "*.so" 
 #--include "*.data"
-unzip -l "$BASE/todoapp/app.zip"
+# unzip -l "$BASE/todoapp/app.zip"
