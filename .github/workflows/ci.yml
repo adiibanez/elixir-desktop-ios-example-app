@@ -4,14 +4,35 @@ on: ["push", "pull_request"]
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Install Elixir
+    - uses: actions/checkout@v4
+
+    - name: Install Elixir and other dependencies
       run: |
-        brew install elixir erlang carthage git npm
+        brew install carthage git npm
+        
+    - name: Install asdf version manager
+      run: |
+        brew install asdf
+        echo '. $(brew --prefix asdf)/asdf.sh' >> ~/.bashrc
+        echo '. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash' >> ~/.bashrc
+        source ~/.bashrc # Load asdf into the current shell
+
+    - name: Install Erlang and Elixir via asdf
+      run: |
+        asdf plugin-add erlang
+        asdf plugin-add elixir
+        # Replace with your desired Erlang and Elixir versions
+        ASDF_ERLANG_VERSION=26.2.5.6
+        ASDF_ELIXIR_VERSION=1.16.3-otp-26
+
+        asdf install erlang $ASDF_ERLANG_VERSION
+        asdf install elixir $ASDF_ELIXIR_VERSION
+
+        asdf global erlang $ASDF_ERLANG_VERSION
+        asdf global elixir $ASDF_ELIXIR_VERSION
 
     - name: Set up hex & rebar
       run: |
@@ -20,9 +41,9 @@ jobs:
 
     - name: Build with XCode
       run: |
-        carthage update --use-xcframeworks 
-                xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
-                
+        carthage update --use-xcframeworks
+        xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
+
     - name: Archive build artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -32,10 +53,58 @@ jobs:
           build/Build/Products/**/*.app
         retention-days: 30
 
-    # xcodebuild clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+    - name: Get iPad Simulator UUID
+      id: get_ipad_simulator_uuid
+      run: |
+        # Get list of available iPad simulators
+        ipad_simulators=$(xcrun simctl list devices available | grep -o 'iPad .* \([0-9A-F-]*\)' | awk '{print $NF}' | tr -d '()')
 
-    # - name: Upload APK
-    #   uses: actions/upload-artifact@v1
-    #   with:
-    #     name: app
-    #     path: app/build/outputs/apk/debug/app-debug.apk
+        if [[ -z "$ipad_simulators" ]]; then
+          echo "::error::No available iPad simulators found."
+          exit 1
+        fi
+
+        # Get the first iPad simulator UUID from the list
+        first_ipad_uuid=$(echo "$ipad_simulators" | head -n 1)
+        echo "::set-output name=ipad_uuid::$first_ipad_uuid"
+        echo "Using iPad Simulator UUID: $first_ipad_uuid"
+
+    - name: Boot iPad Simulator
+      run: xcrun simctl boot ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }}
+
+    - name: Install app on Simulator
+      run: xcrun simctl install ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }} build/Build/Products/Debug-iphonesimulator/TodoApp.app # Adjust TodoApp.app if your app name is different
+
+    - name: Launch app on Simulator
+      run: xcrun simctl launch ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }} com.yourcompany.example.TodoApp # Replace com.yourcompany.example.TodoApp with your app's bundle identifier. You might need to get this from your Xcode project's Info.plist
+
+    - name: Wait for a few seconds (adjust as needed)
+      run: sleep 10 # Give the app time to launch and potentially generate logs
+
+    - name: Capture Simulator Logs
+      run: |
+        LOG_FILE="simulator_logs.txt"
+        xcrun simctl diagnose -b ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }} > "$LOG_FILE"
+        echo "Simulator logs saved to $LOG_FILE"
+
+    - name: Upload Simulator Logs Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: simulator-logs
+        path: simulator_logs.txt
+
+    - name: Take Simulator Screenshot
+      run: |
+        SCREENSHOT_FILE="simulator_screenshot.png"
+        xcrun simctl screenshot ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }} "$SCREENSHOT_FILE"
+        echo "Simulator screenshot saved to $SCREENSHOT_FILE"
+
+    - name: Upload Simulator Screenshot Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: simulator-screenshot
+        path: simulator_screenshot.png
+
+    - name: Shutdown Simulator
+      if: always() # Ensure simulator is shutdown even if previous steps fail
+      run: xcrun simctl shutdown ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }}

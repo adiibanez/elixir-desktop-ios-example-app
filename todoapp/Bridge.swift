@@ -43,23 +43,6 @@ class Bridge {
         print("bridge init()")
         home = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent(Bundle.main.bundleIdentifier!)
         
-        
-        // Construct the path to start_erl.data within the app bundle
-            guard let resourcesURL = Bundle.main.resourceURL else {
-                throw NSError(domain: "BridgeError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not find resource directory."])
-            }
-
-            let infoStartErl = resourcesURL.appendingPathComponent("releases").appendingPathComponent("start_erl.data")
-
-            print("Resource directory: \(resourcesURL.path)")
-            print("info startErl: \(infoStartErl.path)")
-
-            if !FileManager.default.fileExists(atPath: infoStartErl.path) {
-                throw NSError(domain: "BridgeError", code: 2, userInfo: [NSLocalizedDescriptionKey: "start_erl.data not found at expected location."])
-            }
-        
-        
-        
         // Extracting the app
         let infoAttr = try FileManager.default.attributesOfItem(atPath: zipFile().path)
         let infoDate = infoAttr[FileAttributeKey.creationDate] as! Date
@@ -70,32 +53,6 @@ class Bridge {
         let appdir = home.appendingPathComponent("app")
         let info = appdir.appendingPathComponent("releases").appendingPathComponent("start_erl.data")
         
-        print("appDir: \(appdir.path), info: \(info.path)")
-        
-        // **RESET APP DIRECTORY LOGIC HERE**
-        if FileManager.default.fileExists(atPath: appdir.path) {
-            print("Deleting existing app directory: \(appdir.path)")
-            do {
-                try FileManager.default.removeItem(at: appdir)
-                print("Successfully deleted app directory.")
-            } catch {
-                print("Error deleting app directory: \(error)")
-                throw error // Re-throw the error to prevent further execution.  Crucially important to stop the process.
-            }
-        }
-        
-        // Now, create the directory if it doesn't exist
-        if !FileManager.default.fileExists(atPath: appdir.path) {
-            do {
-                try FileManager.default.createDirectory(at: appdir, withIntermediateDirectories: true, attributes: nil)
-                print("Created app directory: \(appdir.path)")
-            } catch {
-                print("Error creating app directory: \(error)")
-                throw error //Re-throw the error for consistent error handling
-            }
-        }
-        // **END RESET APP DIRECTORY LOGIC**
-
         if (!FileManager.default.fileExists(atPath: info.path)) {
             try unzipApp(dest: appdir)
         } else if (infoDate.description != build){
@@ -103,7 +60,7 @@ class Bridge {
             try unzipApp(dest: appdir)
             UserDefaults.standard.set(infoDate.description, forKey: "app_build_date")
         }
-
+        
         let inet_rc = appdir.appendingPathComponent("inetrc")
         setEnv(name: "ERL_INETRC", value: inet_rc.path)
         //if (!FileManager.default.fileExists(atPath: inet_rc.path)) {
@@ -154,45 +111,9 @@ class Bridge {
         return Bundle.main.url(forResource: "app", withExtension: "zip")!
     }
     
-    /*func unzipApp(dest: URL) throws {
-        try FileManager.default.createDirectory(at: dest, withIntermediateDirectories: true, attributes: nil)
-        try FileManager.default.unzipItem(at: zipFile(), to: dest)
-    }*/
-    
     func unzipApp(dest: URL) throws {
         try FileManager.default.createDirectory(at: dest, withIntermediateDirectories: true, attributes: nil)
-
-        guard let archive = Archive(url: zipFile(), accessMode: .read) else {
-            throw NSError(domain: "UnzipError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to open archive."])
-        }
-
-        do {
-            for entry in archive {
-                print("Extracting \(entry.path)")
-
-                let destinationURL = dest.appendingPathComponent(entry.path)
-
-                // Check if the parent directory exists, and create it if it doesn't
-                let parentDirectoryURL = destinationURL.deletingLastPathComponent()
-                if !FileManager.default.fileExists(atPath: parentDirectoryURL.path) {
-                    try FileManager.default.createDirectory(at: parentDirectoryURL, withIntermediateDirectories: true, attributes: nil)
-                }
-
-                // Check if the file already exists at the destination, and remove it if it does.
-                if FileManager.default.fileExists(atPath: destinationURL.path) {
-                    try FileManager.default.removeItem(at: destinationURL)
-                }
-
-
-                // Extract the entry to the destination.
-                try archive.extract(entry, to: destinationURL)
-            }
-
-            print("Successfully unzipped \(zipFile().path) to \(dest.path)")
-        } catch {
-            print("Error unzipping \(zipFile().path) to \(dest.path): \(error)")
-            throw error // Re-throw to propagate the error
-        }
+        try FileManager.default.unzipItem(at: zipFile(), to: dest)
     }
 
     func stateDidChange(to newState: NWListener.State) {
