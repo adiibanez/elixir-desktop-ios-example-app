@@ -165,23 +165,23 @@ jobs:
         xcrun simctl list devices available
         echo "--- End of xcrun simctl list devices available output ---"
 
-        # Get list of available iPad simulators - REVISED GREP and PIPELINE
-        ipad_simulators=$(xcrun simctl list devices available | grep 'iPad' | awk -F'[()]' '/iPad/{print $4}')
+        # Extract UUID using improved pattern matching
+        ipad_simulators=$(xcrun simctl list devices available | grep 'iPad' | sed -En 's/.*\(([-A-Z0-9]+)\)[[:space:]]*\(Shutdown\)$/\1/p')
 
-        echo "--- Raw ipad_simulators variable (REVISED) ---"
+        echo "--- Available iPad Simulator UUIDs ---"
         echo "$ipad_simulators"
-        echo "--- End of Raw ipad_simulators variable (REVISED) ---"
+        echo "--- End of iPad Simulator UUIDs ---"
 
         if [[ -z "$ipad_simulators" ]]; then
           echo "::error::No available iPad simulators found."
           echo "IPAD_UUID=Shutdown" >> "$GITHUB_ENV"
           exit 1
         else
-          # Get the first iPad simulator UUID from the list - SIMPLIFIED
+          # Get the first iPad simulator UUID from the list
           first_ipad_uuid=$(echo "$ipad_simulators" | head -n 1)
 
           echo "IPAD_UUID=$first_ipad_uuid" >> "$GITHUB_ENV"
-          echo "Using iPad Simulator UUID: $first_ipad_uuid"
+          echo "Selected iPad Simulator UUID: $first_ipad_uuid"
         fi
 
     - name: Boot iPad Simulator
