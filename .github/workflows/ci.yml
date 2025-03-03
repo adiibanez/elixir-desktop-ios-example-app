@@ -164,7 +164,9 @@ jobs:
 
     - name: Boot iPad Simulator
       id: boot-simulator
-      run: xcrun simctl boot ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }}
+      run: |
+        echo Booting: xcrun simctl boot --arch x86_64 ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }}
+        xcrun simctl boot --arch x86_64 ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }}
 
     - name: Install app on Simulator
       run: xcrun simctl install ${{ steps.get_ipad_simulator_uuid.outputs.first_ipad_uuid }} build/Build/Products/Debug-iphonesimulator/TodoApp.app # Adjust TodoApp.app if your app name is different
