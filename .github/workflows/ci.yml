@@ -235,13 +235,10 @@ jobs:
       if: steps.install-app.outcome == 'success'
       run: xcrun simctl launch ${{ env.IPAD_UUID }} ${{ env.APP_BUNDLE_ID }}
 
-    - name: Wait for a few seconds (adjust as needed)
-      if: steps.launch-app.outcome == 'success'
-      run: sleep 10 # Give the app time to launch and potentially generate logs
-
     - name: Take Simulator Screenshot
       if: steps.boot-simulator.outcome == 'success'
       run: |
+        sleep 10
         SCREENSHOT_FILE="simulator_screenshot.jpg"
         xcrun simctl io booted screenshot "$SCREENSHOT_FILE"
         # xcrun simctl screenshot ${{ env.IPAD_UUID }} "$SCREENSHOT_FILE"
@@ -252,8 +249,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: simulator-screenshot
-        path: simulator_screenshot.png
-
+        path: simulator_screenshot*
 
     - name: Capture Simulator Logs
       continue-on-error: true
