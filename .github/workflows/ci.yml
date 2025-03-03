@@ -90,7 +90,6 @@ jobs:
         restore-keys: |
           carthage-deps-
 
-
     - name: Carthage Update
       run: |
         source ~/.bashrc
@@ -114,18 +113,27 @@ jobs:
     - name: Get iPad Simulator UUID
       id: get_ipad_simulator_uuid
       run: |
+        echo "--- Output of xcrun simctl list devices available ---"
+        xcrun simctl list devices available
+        echo "--- End of xcrun simctl list devices available output ---"
+
         # Get list of available iPad simulators
         ipad_simulators=$(xcrun simctl list devices available | grep -o 'iPad .* \([0-9A-F-]*\)' | awk '{print $NF}' | tr -d '()')
 
+        echo "--- Raw ipad_simulators variable ---"
+        echo "$ipad_simulators"
+        echo "--- End of Raw ipad_simulators variable ---"
+
         if [[ -z "$ipad_simulators" ]]; then
           echo "::error::No available iPad simulators found."
+          echo "::set-output name=ipad_uuid::Shutdown" # Modified to output "Shutdown" explicitly in error case
           exit 1
+        else
+          # Get the first iPad simulator UUID from the list
+          first_ipad_uuid=$(echo "$ipad_simulators" | head -n 1)
+          echo "::set-output name=ipad_uuid::$first_ipad_uuid"
+          echo "Using iPad Simulator UUID: $first_ipad_uuid"
         fi
-
-        # Get the first iPad simulator UUID from the list
-        first_ipad_uuid=$(echo "$ipad_simulators" | head -n 1)
-        echo "::set-output name=ipad_uuid::$first_ipad_uuid"
-        echo "Using iPad Simulator UUID: $first_ipad_uuid"
 
     - name: Boot iPad Simulator
       run: xcrun simctl boot ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }}
