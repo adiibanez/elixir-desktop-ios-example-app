@@ -81,7 +81,7 @@ jobs:
       uses: actions/cache@v4
       id: carthage-cache
       with:
-        path: Carthage # Carthage build directory
+        path: Carthage
         #key: carthage-deps-${{ hashFiles('Cartfile.resolved') }}
         key: carthage-deps
         #restore-keys: |
@@ -89,15 +89,17 @@ jobs:
 
     - name: Print Carthage Cache Status
       run: |
+        ls -lah Carthage || true
         echo "Carthage Cache Hit: ${{ steps.carthage-cache.outputs.cache-hit }}"
         echo "Carthage Cache Key: carthage-deps-${{ hashFiles('Cartfile.resolved') }}"
 
     - name: Carthage Update
+      if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: |
         #source ~/.bashrc
         . $(brew --prefix asdf)/libexec/asdf.sh
         carthage update --use-xcframeworks
-      if: steps.carthage-cache.outputs.cache-hit != 'true'
+        ls -lah Carthage
 
     - name: Print Cartfile.resolved Hash (After Update)
       if: steps.carthage-cache.outputs.cache-hit != 'true' # Only run if Carthage Update ran
