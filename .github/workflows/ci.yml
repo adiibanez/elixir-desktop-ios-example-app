@@ -39,7 +39,7 @@ jobs:
     - name: Configure shell environment
       run: |
         # Set up persistent asdf environment
-        echo 'source $(brew --prefix asdf)/libexec/asdf.sh' >> $GITHUB_ENV
+        source $(brew --prefix asdf)/libexec/asdf.sh
         echo 'export ASDF_DIR="/Users/runner/.asdf"' >> $GITHUB_ENV
         echo 'export ASDF_DATA_DIR="/Users/runner/.asdf"' >> $GITHUB_ENV
         echo "/Users/runner/.asdf/shims" >> $GITHUB_PATH
