@@ -15,7 +15,8 @@ jobs:
 
     - name: Install brew dependencies
       run: |
-        brew install carthage npm wxwidgets
+        # carthage npm
+        brew install wxwidgets
     
     - name: Asdf Cache
       uses: actions/cache@v3
@@ -42,9 +43,11 @@ jobs:
         asdf plugin add elixir
         asdf plugin add nodejs
         #echo "erlang ref:${{ env.OTP_VERSION }}" >> .tool-versions
+        # reset any files in the repo
+        echo '' > .tool-versions
         echo "erlang ${{ env.ERLANG_VERSION }}" >> .tool-versions
         echo "elixir ${{ env.ELIXIR_VERSION }}" >> .tool-versions
-        echo "nodejs v18.7.0" >> .tool-versions
+        echo "nodejs 23.9.0" >> .tool-versions
         export KERL_CONFIGURE_OPTIONS="--enable-parallel-configure --with-wxdir=`brew --prefix wxwidgets` --disable-jit --without-javac --disable-debug CXX='gcc -std=c++11'"
         asdf install
 
@@ -78,10 +81,26 @@ jobs:
         #key:  macos-asdf-${{ env.WXWIDGETS_VERSION }}-otp-${{ env.OTP_VERSION }}
         key:  macos-asdf
 
-    - name: Build with XCode
+
+    - name: Carthage Cache
+      uses: actions/cache@v4
+      id: carthage-cache
+      with:
+        path: Carthage # Carthage build directory
+        key: carthage-deps-${{ hashFiles('Cartfile.resolved') }}
+        restore-keys: |
+          carthage-deps-
+
+
+    - name: Carthage Update
       run: |
         source ~/.bashrc
         carthage update --use-xcframeworks
+      if: steps.carthage-cache.outputs.cache-hit != 'true'
+
+    - name: Build with XCode
+      run: |
+        source ~/.bashrc
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
 
     - name: Archive build artifacts
