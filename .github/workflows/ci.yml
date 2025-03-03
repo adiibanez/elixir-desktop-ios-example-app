@@ -68,6 +68,7 @@ jobs:
     - name: Set up hex & rebar
       run: |
         source ~/.bashrc
+        ls -lah ~/.asdf/installs/elixir/${{ env.ELIXIR_VERSION }}/bin
         mix local.hex --force
         mix local.rebar --force
 
@@ -79,7 +80,6 @@ jobs:
           /Users/runner/.asdf
         #key:  macos-asdf-${{ env.WXWIDGETS_VERSION }}-otp-${{ env.OTP_VERSION }}
         key:  macos-asdf
-
 
     - name: Carthage Cache
       uses: actions/cache@v4
