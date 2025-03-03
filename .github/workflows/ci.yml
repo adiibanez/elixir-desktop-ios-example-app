@@ -223,17 +223,22 @@ jobs:
 
     - name: Install app on Simulator
       if: steps.boot-simulator.outcome == 'success'
+      id: install-app
       run: xcrun simctl install ${{ env.IPAD_UUID }} build/Build/Products/Debug-iphonesimulator/TodoApp.app
 
     - name: Launch app on Simulator
-      if: steps.boot-simulator.outcome == 'success'
+      continue-on-error: true
+      id: launch-app
+      if: steps.install-app.outcome == 'success'
       run: xcrun simctl launch ${{ env.IPAD_UUID }} com.yourcompany.example.TodoApp
 
     - name: Wait for a few seconds (adjust as needed)
-      if: steps.boot-simulator.outcome == 'success'
+      if: steps.launch-app.outcome == 'success'
       run: sleep 10 # Give the app time to launch and potentially generate logs
 
     - name: Capture Simulator Logs
+      continue-on-error: true
+      id: capture-logs
       if: steps.boot-simulator.outcome == 'success'
       run: |
         LOG_FILE="simulator_logs.txt"
@@ -241,7 +246,7 @@ jobs:
         echo "Simulator logs saved to $LOG_FILE"
 
     - name: Upload Simulator Logs Artifact
-      if: steps.boot-simulator.outcome == 'success'
+      if: steps.capture-logs.outcome == 'success'
       uses: actions/upload-artifact@v4
       with:
         name: simulator-logs
