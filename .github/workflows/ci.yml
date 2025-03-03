@@ -15,6 +15,15 @@ jobs:
     - name: Install brew dependencies
       run: |
         brew install wxwidgets asdf
+
+    - name: Configure asdf versions
+      shell: bash
+      run: |
+        # Clean tool-versions file
+        echo '' > .tool-versions
+        echo "erlang ${{ env.ERLANG_VERSION }}" >> .tool-versions
+        echo "elixir ${{ env.ELIXIR_VERSION }}" >> .tool-versions
+        echo "nodejs 23.9.0" >> .tool-versions
     
     - name: Asdf Cache
       uses: actions/cache@v3
@@ -23,9 +32,8 @@ jobs:
         path: |
           /Users/runner/.asdf
           ~/.asdf
-        key: macos-asdf-${{ env.ERLANG_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('.tool-versions') }}
+        key: macos-asdf-${{ hashFiles('.tool-versions') }}
         restore-keys: |
-          macos-asdf-${{ env.ERLANG_VERSION }}-${{ env.ELIXIR_VERSION }}-
           macos-asdf-
 
     - name: Configure shell environment
@@ -72,13 +80,6 @@ jobs:
       if: steps.asdf-cache.outputs.cache-hit != 'true' || env.ASDF_INVALID == 'true'
       run: |
         . $(brew --prefix asdf)/libexec/asdf.sh
-        
-        # Clean tool-versions file
-        echo '' > .tool-versions
-        echo "erlang ${{ env.ERLANG_VERSION }}" >> .tool-versions
-        echo "elixir ${{ env.ELIXIR_VERSION }}" >> .tool-versions
-        echo "nodejs 23.9.0" >> .tool-versions
-        
         # Install plugins if needed
         asdf plugin add erlang || true
         asdf plugin add elixir || true
@@ -103,7 +104,7 @@ jobs:
         path: |
           /Users/runner/.asdf
           ~/.asdf
-        key: macos-asdf-${{ env.ERLANG_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('.tool-versions') }}
+        key: macos-asdf-${{ hashFiles('.tool-versions') }}
 
     - name: Carthage Cache
       uses: actions/cache@v4
