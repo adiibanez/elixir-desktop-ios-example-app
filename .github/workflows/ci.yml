@@ -7,6 +7,7 @@ jobs:
     env: 
       ERLANG_VERSION: 26.2.5.6
       ELIXIR_VERSION: 1.16.3-otp-26
+      APP_BUNDLE_ID: "com.sensocto.iOSErlang"
 
     runs-on: macos-latest
 
@@ -232,7 +233,7 @@ jobs:
       continue-on-error: true
       id: launch-app
       if: steps.install-app.outcome == 'success'
-      run: xcrun simctl launch ${{ env.IPAD_UUID }} com.yourcompany.example.TodoApp
+      run: xcrun simctl launch ${{ env.IPAD_UUID }} ${{ env.APP_BUNDLE_ID }}
 
     - name: Wait for a few seconds (adjust as needed)
       if: steps.launch-app.outcome == 'success'
