@@ -182,6 +182,7 @@ jobs:
         retention-days: 30
 
     - name: Get iPad Simulator UUID
+      continue-on-error: true
       id: get_ipad_simulator_uuid
       run: |
         echo "--- Output of xcrun simctl list devices available ---"
