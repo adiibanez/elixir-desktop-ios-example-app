@@ -37,7 +37,7 @@ jobs:
       id: asdf-install
       if: steps.asdf-cache.outputs.cache-hit != 'true'
       run: |
-        source ~/.bashrc
+        . $(brew --prefix asdf)/libexec/asdf.sh
         asdf plugin add erlang
         asdf plugin add elixir
         asdf plugin add nodejs
@@ -67,8 +67,11 @@ jobs:
 
     - name: Set up hex & rebar
       run: |
-        source ~/.bashrc
+        #source ~/.bashrc
+        . $(brew --prefix asdf)/libexec/asdf.sh
         ls -lah ~/.asdf/installs/elixir/${{ env.ELIXIR_VERSION }}/bin
+        asdf current
+
         mix local.hex --force
         mix local.rebar --force
 
@@ -92,13 +95,15 @@ jobs:
 
     - name: Carthage Update
       run: |
-        source ~/.bashrc
+        #source ~/.bashrc
+        . $(brew --prefix asdf)/libexec/asdf.sh
         carthage update --use-xcframeworks
       if: steps.carthage-cache.outputs.cache-hit != 'true'
 
     - name: Build with XCode
       run: |
-        source ~/.bashrc
+        #source ~/.bashrc
+        . $(brew --prefix asdf)/libexec/asdf.sh
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
 
     - name: Archive build artifacts
@@ -136,6 +141,7 @@ jobs:
         fi
 
     - name: Boot iPad Simulator
+      id: boot-simulator
       run: xcrun simctl boot ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }}
 
     - name: Install app on Simulator
@@ -172,5 +178,6 @@ jobs:
         path: simulator_screenshot.png
 
     - name: Shutdown Simulator
-      if: always() # Ensure simulator is shutdown even if previous steps fail
+      if: steps.boot-simulator.outcome == 'success'
+      #if: always() # Ensure simulator is shutdown even if previous steps fail
       run: xcrun simctl shutdown ${{ steps.get_ipad_simulator_uuid.outputs.ipad_uuid }}
