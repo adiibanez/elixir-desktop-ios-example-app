@@ -36,20 +36,33 @@ class Bridge: NSObject, ObservableObject {
     
     func setWebView(view :WebViewController) {
         self.webview = view
+        
+        logger.info( "setWebView \(String(describing: view))")
+        
         loadURL()
     }
     
     func setURL(url :String) {
         lastURL = URL(string: url)
+        logger.info("setURL \(self.lastURL!.absoluteString)")
         loadURL()
     }
     
     func loadURL() {
         if let view = self.webview {
+            
+            if let url = self.lastURL {
+                logger.info("loadURL \(self.lastURL!.absoluteString)")
+            } else {
+                logger.info("loadURL no url available")
+            }
+            
             if let url = self.lastURL {
                 logger.info ("opening \(url)")
                 view.loadURL(url: url)
             }
+        } else {
+            logger.info("loadURL no webview")
         }
     }
     
@@ -66,7 +79,9 @@ class Bridge: NSObject, ObservableObject {
     func setup() throws {
         // Extracting the app
         
-        state = .setup
+        DispatchQueue.main.async {
+            self.state = .setup
+        }
         
         let infoAttr = try FileManager.default.attributesOfItem(atPath: zipFile().path)
         let infoDate = infoAttr[FileAttributeKey.creationDate] as! Date
@@ -153,7 +168,10 @@ class Bridge: NSObject, ObservableObject {
                 break
             }
             erlangStarted = true
-            state = .starting
+            DispatchQueue.main.async {
+                self.state = .starting
+            }
+            
             logger.info("Bridge Server ready. Starting Elixir")
             setEnv(name: "ELIXIR_DESKTOP_OS", value: "ios");
             setEnv(name: "BRIDGE_PORT", value: (listener?.port?.rawValue.description)!);
@@ -172,10 +190,14 @@ class Bridge: NSObject, ObservableObject {
             
             switch swiftResult {
             case .success():
-                self.state = .starting
+                DispatchQueue.main.async {
+                    self.state = .starting
+                }
                 logger.info("Erlang is starting ...")
             case .failure(let error):
-                self.state = .failed(error)
+                DispatchQueue.main.async {
+                    self.state = .failed(error)
+                }
                 logger.info("Erlang startup failed: \(error)")
             }
             
@@ -205,7 +227,9 @@ class Bridge: NSObject, ObservableObject {
         message.append(payload)
         connection.send(data: message)
         logger.info("server did open connection \(connection.id)")
-        state = .running
+        DispatchQueue.main.async {
+            self.state = .running
+        }
     }
     
     private func connectionDidStop(_ connection: ServerConnection) {
