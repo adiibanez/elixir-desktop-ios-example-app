@@ -20,6 +20,7 @@ class Bridge: NSObject, ObservableObject {
     static let shared: Bridge = {
         let instance = Bridge()
         do {
+            try instance.unpackApp();
             try instance.setup();
         } catch(let e) {
             print("Bridge init failed: \(e)");
@@ -50,7 +51,6 @@ class Bridge: NSObject, ObservableObject {
     
     func loadURL() {
         if let view = self.webview {
-            
             if let url = self.lastURL {
                 logger.info("loadURL \(self.lastURL!.absoluteString)")
             } else {
@@ -77,12 +77,28 @@ class Bridge: NSObject, ObservableObject {
     }
     
     func setup() throws {
-        // Extracting the app
-        
         DispatchQueue.main.async {
             self.state = .setup
         }
         
+        let appdir = home.appendingPathComponent("app")
+        
+        let inet_rc = appdir.appendingPathComponent("inetrc")
+        setEnv(name: "ERL_INETRC", value: inet_rc.path)
+        //if (!FileManager.default.fileExists(atPath: inet_rc.path)) {
+        let rc = #"""
+            %% enable EDNS, 0 means enable YES!
+            {edns,0}.
+            {alt_nameserver, {8,8,8,8}}.
+            %% specify lookup method
+            {lookup, [dns]}.
+            """#
+        logger.info("'\(rc)'")
+        try! rc.write(to: inet_rc, atomically: true, encoding: .utf8)
+        setupListener()
+    }
+    
+    func unpackApp() throws {
         let infoAttr = try FileManager.default.attributesOfItem(atPath: zipFile().path)
         let infoDate = infoAttr[FileAttributeKey.creationDate] as! Date
         let build = UserDefaults.standard.string(forKey: "app_build_date")
@@ -99,20 +115,6 @@ class Bridge: NSObject, ObservableObject {
             try unzipApp(dest: appdir)
             UserDefaults.standard.set(infoDate.description, forKey: "app_build_date")
         }
-        
-        let inet_rc = appdir.appendingPathComponent("inetrc")
-        setEnv(name: "ERL_INETRC", value: inet_rc.path)
-        //if (!FileManager.default.fileExists(atPath: inet_rc.path)) {
-        let rc = #"""
-            %% enable EDNS, 0 means enable YES!
-            {edns,0}.
-            {alt_nameserver, {8,8,8,8}}.
-            %% specify lookup method
-            {lookup, [dns]}.
-            """#
-        logger.info("'\(rc)'")
-        try! rc.write(to: inet_rc, atomically: true, encoding: .utf8)
-        setupListener()
     }
     
     func setupListener() {

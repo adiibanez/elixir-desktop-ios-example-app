@@ -6,7 +6,7 @@ import os
 struct ContentView: View {
     private let logger = Logger(subsystem: "ContentView", category: "UI");
     
-    @State var isActive : Bool = false
+    @State var webviewIsActive : Bool = false
     @State var webview : WebViewController?
     @State private var statusText: String = "..."
     @State private var statusColor: Color = .gray
@@ -45,7 +45,7 @@ struct ContentView: View {
             
             Spacer()
             
-            if self.isActive {
+            if bridge.state == .running && webviewIsActive {
                 if let webview = self.webview {
                     webview.ignoresSafeArea()
                 } else {
@@ -66,10 +66,21 @@ struct ContentView: View {
             DispatchQueue.main.async {
                 self.webview = WebViewController()
                 self.webview?.webview.onFinish {
-                    self.isActive = true
+                    self.webviewIsActive = true
                 }
                 Bridge.shared.setWebView(view: self.webview!)
             }
+        }.onChange(of: bridge.state) { newState in
+            if newState == .running {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if let webview = self.webview {
+                        webview.loadURL(url: bridge.home)
+                    } else {
+                        logger.error( "Could not load URL, no webview available")
+                    }
+                }
+            }
+            
         }
     }
     
