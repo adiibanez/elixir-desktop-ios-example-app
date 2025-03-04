@@ -9,14 +9,8 @@ import Foundation
 import Network
 import ZIPFoundation
 import SwiftUI
-import os
 
-//@MainActor
-class Bridge: ObservableObject {
-    private let logger = Logger(subsystem: "Bridge", category: "Networking");
-    
-    @Published var state: BridgeState = .unknown
-
+class Bridge {
     var webview: WebViewController?
     var listener: NWListener?
     let home: URL
@@ -37,29 +31,25 @@ class Bridge: ObservableObject {
     func loadURL() {
         if let view = self.webview {
             if let url = self.lastURL {
-                logger.info ("opening \(url)")
+                print ("opening \(url)")
                 view.loadURL(url: url)
             }
         }
     }
-    
+
     private var connectionsByID: [Int: ServerConnection] = [:]
-    
+
     init() throws {
-        logger.info("bridge init()")
+        print("bridge init()")
         home = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent(Bundle.main.bundleIdentifier!)
-        Bridge.instance = self
-        setupListener()
-    }
-    
-    func setup() throws {
+        
         // Extracting the app
         let infoAttr = try FileManager.default.attributesOfItem(atPath: zipFile().path)
         let infoDate = infoAttr[FileAttributeKey.creationDate] as! Date
         let build = UserDefaults.standard.string(forKey: "app_build_date")
         
         print("Preparing app files \(infoDate.description) installed: \(String(describing: build))")
-        
+
         let appdir = home.appendingPathComponent("app")
         let info = appdir.appendingPathComponent("releases").appendingPathComponent("start_erl.data")
         
@@ -74,33 +64,32 @@ class Bridge: ObservableObject {
         let inet_rc = appdir.appendingPathComponent("inetrc")
         setEnv(name: "ERL_INETRC", value: inet_rc.path)
         //if (!FileManager.default.fileExists(atPath: inet_rc.path)) {
-        let rc = #"""
+            let rc = #"""
             %% enable EDNS, 0 means enable YES!
             {edns,0}.
             {alt_nameserver, {8,8,8,8}}.
             %% specify lookup method
             {lookup, [dns]}.
             """#
-        logger.info("'\(rc)'")
-        try! rc.write(to: inet_rc, atomically: true, encoding: .utf8)
+            print("'\(rc)'")
+            try! rc.write(to: inet_rc, atomically: true, encoding: .utf8)
         //}
-        
-        logger.info("Server starting...")
+
+        print("Server starting...")
         // setupListener()
+        Bridge.instance = self
     }
     
     func setupListener() {
-        
         let l = try! NWListener(using: .tcp, on: Bridge.port())
         l.stateUpdateHandler = self.stateDidChange(to:)
         l.newConnectionHandler = self.didAccept(nwConnection:)
         l.start(queue: .global())
-        logger.info("setupListener")
         listener = l
     }
     
     func reinit() {
-        logger.info("Server re-init called")
+        print("Server re-init called")
         let conn = connectionsByID.first
         if conn == nil ||
             conn?.value.connection.state == .cancelled {
@@ -108,13 +97,13 @@ class Bridge: ObservableObject {
             setupListener()
         }
     }
-    
+
     static func port() -> NWEndpoint.Port {
         return NWEndpoint.Port("23115")!
     }
     
     func setEnv(name: String, value: String) {
-        logger.info("setenv \(name) \(value)")
+        print("setenv \(name) \(value)")
         setenv(name, value, 1)
     }
     
@@ -123,26 +112,18 @@ class Bridge: ObservableObject {
     }
     
     func unzipApp(dest: URL) throws {
-        do {
-            try FileManager.default.createDirectory(at: dest, withIntermediateDirectories: true, attributes: nil)
-            try FileManager.default.unzipItem(at: zipFile(), to: dest)
-            logger.info("Successfully extracted app files to: \(dest.path)")
-        } catch {
-            logger.error("Failed to extract app files: \(error.localizedDescription)")
-            throw error
-        }
+        try FileManager.default.createDirectory(at: dest, withIntermediateDirectories: true, attributes: nil)
+        try FileManager.default.unzipItem(at: zipFile(), to: dest)
     }
-    
+
     func stateDidChange(to newState: NWListener.State) {
-        
         switch newState {
         case .ready:
             if erlangStarted {
-                logger.info("Erlang already started. Skipping")
                 break
             }
             erlangStarted = true
-            logger.info("Bridge Server ready. Starting Elixir")
+            print("Bridge Server ready. Starting Elixir")
             setEnv(name: "ELIXIR_DESKTOP_OS", value: "ios");
             setEnv(name: "BRIDGE_PORT", value: (listener?.port?.rawValue.description)!);
             // not really the home directory, but persistent between app upgrades (yes?)
@@ -154,27 +135,17 @@ class Bridge: ObservableObject {
             let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
             let logdir = urls[0].path
             let appdir = home.appendingPathComponent("app")
-            
-            let result = start_erlang(appdir.path, logdir)
-            let swiftResult = handleErlangStartResult(String(cString: result!))
-            
-            switch swiftResult {
-            case .success():
-                self.state = .starting
-                logger.info("Erlang is starting ...")
-            case .failure(let error):
-                self.state = .failed(error)
-                logger.info("Erlang startup failed: \(error)")
-            }
-            
+            let ret = start_erlang(appdir.path, logdir)
+            print("Ret: " + String(cString: ret!))
+
         case .failed(let error):
-            logger.error("Bridge Server failure, error: \(error.localizedDescription)")
+            print("Server failure, error: \(error.localizedDescription)")
             exit(EXIT_FAILURE)
         case .cancelled:
-            logger.error("Bridge Server failure, cancelled")
+            print("Server failure, cancelled")
             exit(EXIT_FAILURE)
         default:
-            logger.error("Bridge Server unknown new state, check logs")
+            print("Server unknown new state: \(newState)")
             break
         }
     }
@@ -192,12 +163,12 @@ class Bridge: ObservableObject {
         var message = withUnsafeBytes(of: size) { Data($0) }
         message.append(payload)
         connection.send(data: message)
-        logger.info("server did open connection \(connection.id)")
+        print("server did open connection \(connection.id)")
     }
     
     private func connectionDidStop(_ connection: ServerConnection) {
         self.connectionsByID.removeValue(forKey: connection.id)
-        logger.info("server did close connection \(connection.id)")
+        print("server did close connection \(connection.id)")
     }
     
     private func stopListener() {
@@ -207,11 +178,10 @@ class Bridge: ObservableObject {
             l.cancel()
         }
     }
-    
-    //private func stop() {
-    public func stop() {
-        logger.info("stop() called")
-        
+
+    private func stop() {
+        print("stop() called")
+
         stopListener()
         for connection in self.connectionsByID.values {
             connection.didStopCallback = nil
@@ -224,27 +194,27 @@ class Bridge: ObservableObject {
 class ServerConnection {
     //The TCP maximum package size is 64K 65536
     let MTU = 65536
-    
+
     private static var nextID: Int = 0
     let connection: NWConnection
     let id: Int
     var bridge: Bridge
-    
+
     init(nwConnection: NWConnection, bridge: Bridge) {
         self.bridge = bridge
         connection = nwConnection
         id = ServerConnection.nextID
         ServerConnection.nextID += 1
     }
-    
+
     var didStopCallback: ((Error?) -> Void)? = nil
-    
+
     func start() {
         connection.stateUpdateHandler = self.stateDidChange(to:)
         setupReceive()
         connection.start(queue: .main)
     }
-    
+
     private func stateDidChange(to state: NWConnection.State) {
         switch state {
         case .waiting(let error):
@@ -257,7 +227,7 @@ class ServerConnection {
             break
         }
     }
-    
+
     private func setupReceive() {
         connection.receive(minimumIncompleteLength: 4, maximumLength: 4) { (data, _, isComplete, error) in
             if isComplete {
@@ -304,7 +274,7 @@ class ServerConnection {
                     //    openFile(uri.path)
                     //}
                 }
-                
+
                 var response = ref
                 if (method == ":getOsDescription") {
                     response.append(self.dataToList(string: "iOS \(UIDevice().model)"))
@@ -316,7 +286,7 @@ class ServerConnection {
                 } else {
                     response.append("use_mock".data(using: .utf8)!)
                 }
-                
+                        
                 
                 let size: UInt32 = CFSwapInt32(UInt32(response.count))
                 var message = withUnsafeBytes(of: size) { Data($0) }
@@ -344,21 +314,21 @@ class ServerConnection {
             }
         }))
     }
-    
+
     func stop() {
-        print("Bridge connection \(id) will stop")
+        print("connection \(id) will stop")
     }
-    
+
     private func connectionDidFail(error: Error) {
-        print("Bridge connection \(id) did fail, error: \(error)")
+        print("connection \(id) did fail, error: \(error)")
         stop(error: error)
     }
-    
+
     private func connectionDidEnd() {
-        print("Bridge connection \(id) did end")
+        print("connection \(id) did end")
         stop(error: nil)
     }
-    
+
     private func stop(error: Error?) {
         connection.stateUpdateHandler = nil
         connection.cancel()
@@ -375,57 +345,5 @@ extension Data {
             let i32array = self.withUnsafeBytes { $0.load(as: UInt32.self) }
             return i32array
         }
-    }
-}
-
-enum BridgeState: Equatable {
-    static func == (lhs: BridgeState, rhs: BridgeState) -> Bool {
-            switch (lhs, rhs) {
-            case (.starting, .starting):
-                return true
-            case (.running, .running):
-                return true
-            case (.stopped, .stopped):
-                return true
-            case (.failed(let lhsError), .failed(let rhsError)):
-                return lhsError == rhsError
-            case (.unknown, .unknown):
-                return true
-            default:
-                return false // Cases are not the same
-            }
-        }
-    case starting
-    case running
-    case stopped
-    case failed(ErlangError)
-    case unknown
-}
-
-enum ErlangError: Error, Equatable {
-    case missingSysConfig
-    case missingBootFile
-    case missingLib
-    case startFailed
-    case unknownError
-    case ok
-}
-
-// Converts C++ error strings into Swift errors
-func handleErlangStartResult(_ result: String) -> Result<Void, ErlangError> {
-    switch result {
-    case "error_sys_config_missing":
-        return .failure(.missingSysConfig)
-    case "error_boot_missing":
-        return .failure(.missingBootFile)
-    case "error_lib_missing":
-        return .failure(.missingLib)
-    case "error_erl_start_failed":
-        return .failure(.startFailed)
-    case "error_unknown":
-        return .failure(.unknownError)
-        // case ok, means thread detached, trying to start
-    default:
-        return .success(())
     }
 }

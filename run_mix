@@ -3,8 +3,8 @@ set -e
 source .env
 
 # Setting up the PATH environment
-[ -s /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
-[ -s /usr/local/bin/brew ] && eval $(/usr/local/bin/brew shellenv)
+#[ -s /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
+#[ -s /usr/local/bin/brew ] && eval $(/usr/local/bin/brew shellenv)
 
 # This loads nvm
 export NVM_DIR="$HOME/.nvm"
@@ -17,6 +17,12 @@ elif [ -s "$HOME/.asdf/asdf.sh" ]; then
   \. "$HOME/.asdf/asdf.sh"
 fi
 
+erl -version
+whereis erl
+elixir --version
+whereis elixir
+asdf current
+
 BASE=`pwd`
 export MIX_ENV=prod
 export MIX_TARGET=ios
@@ -24,10 +30,18 @@ export MIX_TARGET=ios
 mix local.hex --force --if-missing
 mix local.rebar --force --if-missing
 
+
+#rsync -av --delete --exclude 'deps' --exclude '_build' --exclude '.vscode' --exclude '.elixir_ls' ../elixir_desktop_lvn/ elixir-app
 if [ ! -d "elixir-app" ]; then
+  
   git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
   # git clone --local ../desktop-example-app elixir-app
   #ln -s ../desktop-example-app elixir-app
+else 
+  cd elixir-app
+  git reset --hard
+  git pull
+  cd ..
 fi
 
 #git pull origin
