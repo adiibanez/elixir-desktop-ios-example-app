@@ -40,7 +40,7 @@ jobs:
     - name: Configure shell environment
       run: |
         # Set up persistent asdf environment
-        source $(brew --prefix asdf)/libexec/asdf.sh
+        # source $(brew --prefix asdf)/libexec/asdf.sh
         echo 'export ASDF_DIR="/Users/runner/.asdf"' >> $GITHUB_ENV
         echo 'export ASDF_DATA_DIR="/Users/runner/.asdf"' >> $GITHUB_ENV
         echo "/Users/runner/.asdf/shims" >> $GITHUB_PATH
@@ -51,7 +51,7 @@ jobs:
       shell: bash
       run: |
         # Load asdf without failing
-        source $(brew --prefix asdf)/libexec/asdf.sh || true
+        # source $(brew --prefix asdf)/libexec/asdf.sh || true
         
         # Reshim after cache restore to ensure binaries are available
         asdf reshim || true
@@ -69,18 +69,17 @@ jobs:
           ls -la /Users/runner/.asdf/shims/ || true
         fi
 
-    - name: Configure asdf version manager
+    - name: Configure .env for run_mix
       run: |
-        echo '. $(brew --prefix asdf)/libexec/asdf.sh' >> ~/.bashrc
-        echo '. $(brew --prefix asdf)/libexec/asdf.sh' >> .env
+        echo "eval $(brew shellenv)" > .env
+        echo export PATH="$HOME/.asdf/shims:$HOME/.asdf/bin:$HOME/.local/bin/:/opt/homebrew/bin:$PATH" >> .env
 
-        # echo '. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash' >> ~/.bashrc
         source ~/.bashrc # Load asdf into the current shell
 
     - name: "Installing Erlang/Elixir"
       if: steps.asdf-cache.outputs.cache-hit != 'true' || env.ASDF_INVALID == 'true'
       run: |
-        . $(brew --prefix asdf)/libexec/asdf.sh
+        # . $(brew --prefix asdf)/libexec/asdf.sh
         # Install plugins if needed
         asdf plugin add erlang || true
         asdf plugin add elixir || true
@@ -131,7 +130,7 @@ jobs:
       if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: |
         #source ~/.bashrc
-        . $(brew --prefix asdf)/libexec/asdf.sh
+        # . $(brew --prefix asdf)/libexec/asdf.sh
         carthage update --use-xcframeworks
         ls -lah Carthage
 
@@ -170,7 +169,7 @@ jobs:
       id: build-app
       run: |
         #source ~/.bashrc
-        . $(brew --prefix asdf)/libexec/asdf.sh
+        # . $(brew --prefix asdf)/libexec/asdf.sh
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
 
     - name: Save phx deps cache
