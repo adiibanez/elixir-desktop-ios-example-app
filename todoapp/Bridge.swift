@@ -12,10 +12,20 @@ import SwiftUI
 import os
 
 //@MainActor
-class Bridge: ObservableObject {
+class Bridge: NSObject, ObservableObject {
     private let logger = Logger(subsystem: "Bridge", category: "Networking");
     
     @Published var state: BridgeState = .unknown
+    
+    static let shared: Bridge = {
+        let instance = Bridge()
+        do {
+            try instance.setup();
+        } catch(let e) {
+            print("Bridge init failed: \(e)");
+        }
+        return instance
+    }()
 
     var webview: WebViewController?
     var listener: NWListener?
@@ -45,15 +55,19 @@ class Bridge: ObservableObject {
     
     private var connectionsByID: [Int: ServerConnection] = [:]
     
-    init() throws {
-        logger.info("bridge init()")
+    override init() {
         home = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0].appendingPathComponent(Bundle.main.bundleIdentifier!)
-        Bridge.instance = self
-        setupListener()
+        super.init()
+        logger.info("bridge init()")
+        //Bridge.instance = self
+        //setupListener()
     }
     
     func setup() throws {
         // Extracting the app
+        
+        state = .setup
+        
         let infoAttr = try FileManager.default.attributesOfItem(atPath: zipFile().path)
         let infoDate = infoAttr[FileAttributeKey.creationDate] as! Date
         let build = UserDefaults.standard.string(forKey: "app_build_date")
@@ -83,10 +97,7 @@ class Bridge: ObservableObject {
             """#
         logger.info("'\(rc)'")
         try! rc.write(to: inet_rc, atomically: true, encoding: .utf8)
-        //}
-        
-        logger.info("Server starting...")
-        // setupListener()
+        setupListener()
     }
     
     func setupListener() {
@@ -142,6 +153,7 @@ class Bridge: ObservableObject {
                 break
             }
             erlangStarted = true
+            state = .starting
             logger.info("Bridge Server ready. Starting Elixir")
             setEnv(name: "ELIXIR_DESKTOP_OS", value: "ios");
             setEnv(name: "BRIDGE_PORT", value: (listener?.port?.rawValue.description)!);
@@ -193,6 +205,7 @@ class Bridge: ObservableObject {
         message.append(payload)
         connection.send(data: message)
         logger.info("server did open connection \(connection.id)")
+        state = .running
     }
     
     private func connectionDidStop(_ connection: ServerConnection) {
@@ -381,6 +394,8 @@ extension Data {
 enum BridgeState: Equatable {
     static func == (lhs: BridgeState, rhs: BridgeState) -> Bool {
             switch (lhs, rhs) {
+            case (.setup, .setup):
+                return true
             case (.starting, .starting):
                 return true
             case (.running, .running):
@@ -395,14 +410,16 @@ enum BridgeState: Equatable {
                 return false // Cases are not the same
             }
         }
+    case setup
     case starting
     case running
     case stopped
-    case failed(ErlangError)
+    case failed(BridgeError)
     case unknown
 }
 
-enum ErlangError: Error, Equatable {
+enum BridgeError: Error, Equatable {
+    case corrupZip
     case missingSysConfig
     case missingBootFile
     case missingLib
@@ -412,7 +429,7 @@ enum ErlangError: Error, Equatable {
 }
 
 // Converts C++ error strings into Swift errors
-func handleErlangStartResult(_ result: String) -> Result<Void, ErlangError> {
+func handleErlangStartResult(_ result: String) -> Result<Void, BridgeError> {
     switch result {
     case "error_sys_config_missing":
         return .failure(.missingSysConfig)

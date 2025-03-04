@@ -10,49 +10,39 @@ struct ContentView: View {
     @State var webview : WebViewController?
     @State private var statusText: String = "..."
     @State private var statusColor: Color = .gray
-    @State private var bridgeStatus: BridgeState = .unknown
-    //@ObservedObject var bridge = Bridge.instance!
-    //@StateObject var bridge: Bridge? = Bridge.instance
-    //@State private var bridgeInstance: Bridge? = Bridge.instance
-    //@ObservedObject var bridge: Bridge
     
+    @ObservedObject var bridge: Bridge = Bridge.shared
     
     var body: some View {
         VStack {
-            switch bridgeStatus {
-            case .unknown:
-                VStack{
-                    statusUIText
-                    setupUI
-                }
-            case .stopped:
+            if (
+                bridge.state == .stopped ||
+                bridge.state == .unknown ||
+                bridge.state == .running) {
                 statusUIText
                 setupUI
-            case .starting:
+            } else if (bridge.state == .setup) {
+                ProgressView("Setting up...")
+                    .padding()
+            } else if (bridge.state == .starting) {
                 ProgressView("Starting Bridge...")
                     .padding()
-                
-            case .running:
-                statusUIText
-            case .failed(let error):
+            } else if case .failed(let error) = bridge.state { // Handle the .failed case
                 VStack {
                     statusUIText
+                    Text("Error: \(error.localizedDescription)")  // Display the error message
+                        .foregroundColor(.red)
+                        .padding()
+                    
                     Button("Retry Setup") {
-                        
                         Task {
-                            do {
-                                try Bridge.instance?.setup() // Allow retry on failure
-                            } catch {
-                                print("Error during setup: \(error)")
-                                /*await MainActor.run { bridgeStatus = .failed(error as? ErlangError ?? .unknownError) } */
-                            }
+                            try bridge.setup()
                         }
-                        
                     }
-                    //.buttonStyle(.borderedProminent)
                     .padding()
                 }
             }
+            
             Spacer()
             
             if self.isActive {
@@ -72,15 +62,13 @@ struct ContentView: View {
                 }
             }
         }
-        //.ignoresSafeArea(edges: .top)
         .onAppear {
             DispatchQueue.main.async {
-                let bridge = try! Bridge()
                 self.webview = WebViewController()
                 self.webview?.webview.onFinish {
                     self.isActive = true
                 }
-                bridge.setWebView(view: self.webview!)
+                Bridge.shared.setWebView(view: self.webview!)
             }
         }
     }
@@ -88,20 +76,24 @@ struct ContentView: View {
     func bridgeStateColor(_ state: BridgeState) -> Color {
         switch state {
         case .failed(_):
-            return .red  // 🔴 Error state
+            return .red
         case .running:
-            return .green  // ✅ Running
+            return .green
         case .starting:
-            return .orange  // 🟠 Starting
+            return .orange
+        case .setup:
+            return .blue
         default:
-            return .gray  // ⚪ Default (idle)
+            return .gray
         }
     }
     
     func bridgeStateMessage(_ state: BridgeState) -> String {
         switch state {
         case .starting:
-            return "Starting..."
+            return "Starting...🟠"
+        case .setup:
+            return "Setup ... ☑️"
         case .running:
             return "Running ✅"
         case .stopped:
@@ -117,32 +109,34 @@ struct ContentView: View {
 
 extension ContentView {
     private var statusUIText: some View {
-        Text(statusText).onChange(of:  Bridge.instance?.state) { newValue in
-            statusText = "Bridge Status: \(bridgeStateMessage(newValue ?? .unknown))"
-            statusColor = bridgeStateColor(newValue ?? .unknown)
-        }.foregroundColor(statusColor)
+        Text("Bridge Status: \(bridgeStateMessage(bridge.state))")
+            .foregroundColor(bridgeStateColor(bridge.state))
             .padding()
+            .onChange(of: bridge.state) { newValue in
+                print("Bridge state changed to: \(newValue)") // Log for debugging
+                statusText = "Bridge Status: \(bridgeStateMessage(newValue))"
+                statusColor = bridgeStateColor(newValue)
+            }
         
     }
     private var setupUI: some View {
-        VStack { // Group views if you need multiple views in a case
-            Text("Bridge is Stopped")
+        VStack {
+            if (bridge.state == .stopped || bridge.state == .unknown) {
+                Button("Start") {
+                    Task {
+                        try bridge.setup()
+                    }}
                 .padding()
-            Button("Start") {
-                // Action for "Start" button when state is .stopped
-                Task {
-                    do {
-                        try Bridge.instance?.setup()
-                    } catch {
-                        print("Error during setup: \(error)")
-                        /*await MainActor.run { bridgeStatus = .failed(error as? ErlangError ?? .unknownError) } */
-                    }
-                }}
-            .padding()
+            } else if (bridge.state == .running) {
+                Button("Reinit") {
+                    Task {
+                        bridge.reinit()
+                    }}
+                .padding()
+            }
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
