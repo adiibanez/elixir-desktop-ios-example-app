@@ -88,6 +88,11 @@ final class WebView: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
         print("WebView failed to load page with error: \(error.localizedDescription)")
     }
     
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print("WebView didFailProvisionalNavigation with error: \(error.localizedDescription)")
+        self.webview.reload()
+    }
+    
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         switch message.name {
         case "error":

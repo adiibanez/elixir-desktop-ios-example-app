@@ -45,6 +45,11 @@ rsync -av --delete --exclude 'deps' --exclude '_build' --exclude '.vscode' --exc
 
 #git pull origin
 
+# ensure there is no "funky" runtime.ex crashing erlang due to reading env variables
+if [ -s "elixir-app/config/runtime.ex" ]; then 
+  mv "elixir-app/config/runtime.ex" "elixir-app/config/runtime.ex.txt"
+fi
+
 # using the right runtime versions
 if [ ! -f "elixir/.tool-versions" ]; then
   cp .tool-versions elixir-app/

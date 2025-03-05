@@ -40,19 +40,28 @@ class Bridge: NSObject, ObservableObject {
         
         logger.info( "setWebView \(String(describing: view))")
         
-        loadURL()
+        //loadURL()
     }
     
     func setURL(url :String) {
         lastURL = URL(string: url)
         logger.info("setURL \(self.lastURL!.absoluteString)")
-        loadURL()
+        
+        if !url.isEmpty {
+            loadURL()
+        } else {
+            logger.debug("Attempt to setURL with nil")
+        }
+        
+        DispatchQueue.main.async {
+            self.state = .running
+        }
     }
     
     func loadURL() {
         if let view = self.webview {
             if let url = self.lastURL {
-                logger.info("loadURL \(self.lastURL!.absoluteString)")
+                logger.info("loadURL \(url.absoluteString)")
             } else {
                 logger.info("loadURL no url available")
             }
@@ -95,7 +104,6 @@ class Bridge: NSObject, ObservableObject {
             """#
         logger.info("'\(rc)'")
         try! rc.write(to: inet_rc, atomically: true, encoding: .utf8)
-        setupListener()
     }
     
     func unpackApp() throws {
@@ -118,7 +126,6 @@ class Bridge: NSObject, ObservableObject {
     }
     
     func setupListener() {
-        
         let l = try! NWListener(using: .tcp, on: Bridge.port())
         l.stateUpdateHandler = self.stateDidChange(to:)
         l.newConnectionHandler = self.didAccept(nwConnection:)
@@ -174,7 +181,7 @@ class Bridge: NSObject, ObservableObject {
                 self.state = .starting
             }
             
-            logger.info("Bridge Server ready. Starting Elixir")
+            logger.info("NWListener ready. Starting Elixir")
             setEnv(name: "ELIXIR_DESKTOP_OS", value: "ios");
             setEnv(name: "BRIDGE_PORT", value: (listener?.port?.rawValue.description)!);
             // not really the home directory, but persistent between app upgrades (yes?)
@@ -195,7 +202,7 @@ class Bridge: NSObject, ObservableObject {
                 DispatchQueue.main.async {
                     self.state = .starting
                 }
-                logger.info("Erlang is starting ...")
+                
             case .failure(let error):
                 DispatchQueue.main.async {
                     self.state = .failed(error)
@@ -261,6 +268,7 @@ class Bridge: NSObject, ObservableObject {
 }
 
 class ServerConnection {
+    private let logger = Logger(subsystem: "ServerConnection", category: "Networking");
     //The TCP maximum package size is 64K 65536
     let MTU = 65536
     
@@ -332,7 +340,13 @@ class ServerConnection {
                 
                 //print ("received \(method)")
                 if (method == ":loadURL") {
-                    self.bridge.setURL(url: args![1] as! String)
+                    let urlString = args![1] as! String
+                    self.logger.debug(":loadURL received \(urlString)")
+                    self.bridge.setURL(url: urlString)
+                    
+                    DispatchQueue.main.async {
+                        self.bridge.state = .running
+                    }
                 }
                 if (method == ":launchDefaultBrowser") {
                     //val uri = Uri.parse(args.getString(0))
@@ -346,8 +360,10 @@ class ServerConnection {
                 
                 var response = ref
                 if (method == ":getOsDescription") {
+                    self.logger.debug(":getOsDescription")
                     response.append(self.dataToList(string: "iOS \(UIDevice().model)"))
                 } else if (method == ":getCanonicalName") {
+                    self.logger.debug(":getCanonicalName")
                     //val primaryLocale = getCurrentLocale(applicationContext)
                     //var locale = "${primaryLocale.language}_${primaryLocale.country}"
                     //stringToList(locale).toByteArray()

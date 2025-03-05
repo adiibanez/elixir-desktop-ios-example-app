@@ -72,9 +72,10 @@ struct ContentView: View {
             }
         }.onChange(of: bridge.state) { newState in
             if newState == .running {
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     if let webview = self.webview {
-                        webview.loadURL(url: bridge.home)
+                        webview.loadURL(url: bridge.lastURL!)
                     } else {
                         logger.error( "Could not load URL, no webview available")
                     }
@@ -132,6 +133,41 @@ extension ContentView {
     }
     private var setupUI: some View {
         VStack {
+            
+            Button("Test response") {
+                Task {
+                    do {
+                        guard let url = bridge.lastURL else {
+                            logger.debug("Test response: no url available")
+                            return
+                        }
+                        
+                        logger.debug("Test response: \(bridge.lastURL?.absoluteString ?? "no url")")
+                        
+                        let urlString = bridge.lastURL!.absoluteString.replacingOccurrences(of: "localhost", with: "127.0.0.1")
+                        //let urlString = "http://www.google.com"
+                        
+                        let (data, response) = try await URLSession.shared.data(from: URL(string: urlString)!)
+                        
+                        guard let httpResponse = response as? HTTPURLResponse,
+                              (200...299).contains(httpResponse.statusCode) else {
+                            let responseText = "Server Error: \(String(describing: response))" // Detailed server error
+                            logger.debug("Test response: \(responseText)")
+                            return
+                        }
+                        
+                        if let stringResponse = String(data: data, encoding: .utf8) {
+                            let responseText = stringResponse
+                        } else {
+                            logger.debug("Test response: Unable to decode response")
+                        }
+                    } catch {
+                        logger.debug("Test response Fetch Error: \(error.localizedDescription)")
+                    }
+                }
+            }
+            
+            
             if (bridge.state == .stopped || bridge.state == .unknown) {
                 Button("Start") {
                     Task {

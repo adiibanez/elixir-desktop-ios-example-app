@@ -17,8 +17,9 @@ struct TodoApp: App {
                 print(".background")
             case .active:
                 print(".active")
-                if let bridge = Bridge.instance {
-                    bridge.reinit()
+                Task {
+                    logger.log("Reinit bridge")
+                    Bridge.shared.reinit()
                 }
             default: break
             }
