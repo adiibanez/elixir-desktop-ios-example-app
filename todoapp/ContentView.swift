@@ -18,14 +18,15 @@ struct ContentView: View {
             if (
                 bridge.state == .stopped ||
                 bridge.state == .unknown ||
-                bridge.state == .running) {
+                bridge.state == .running ||
+                bridge.state == .unpacked) {
                 statusUIText
                 setupUI
-            } else if (bridge.state == .setup) {
-                ProgressView("Setting up...")
+            } else if (bridge.state == .unpacking) {
+                ProgressView("Setting up...", value: bridge.progress.fractionCompleted)
                     .padding()
             } else if (bridge.state == .starting) {
-                ProgressView("Starting Bridge...")
+                ProgressView("Starting Bridge...", value: bridge.progress.fractionCompleted)
                     .padding()
             } else if case .failed(let error) = bridge.state { // Handle the .failed case
                 VStack {
@@ -36,7 +37,7 @@ struct ContentView: View {
                     
                     Button("Retry Setup") {
                         Task {
-                            try bridge.setup()
+                            try Bridge.shared.setup()
                         }
                     }
                     .padding()
@@ -93,7 +94,7 @@ struct ContentView: View {
             return .green
         case .starting:
             return .orange
-        case .setup:
+        case .unpacking:
             return .blue
         default:
             return .gray
@@ -103,9 +104,11 @@ struct ContentView: View {
     func bridgeStateMessage(_ state: BridgeState) -> String {
         switch state {
         case .starting:
-            return "Starting...🟠"
-        case .setup:
-            return "Setup ... ☑️"
+            return "Starting... 🟠"
+        case .unpacking:
+            return "Unpacking... 🟠"
+        case .unpacked:
+            return "Unpacked ✅"
         case .running:
             return "Running ✅"
         case .stopped:
@@ -167,17 +170,28 @@ extension ContentView {
                 }
             }
             
-            
-            if (bridge.state == .stopped || bridge.state == .unknown) {
+            if  (bridge.state == .unknown) {
+                Button("Unpack") {
+                    Task {
+                        try Bridge.shared.unpackApp()
+                    }}
+                .padding()
+            } else if (bridge.state == .stopped ) {
                 Button("Start") {
                     Task {
-                        try bridge.setup()
+                        try Bridge.shared.setup()
+                    }}
+                .padding()
+            } else if (bridge.state == .unpacked) {
+                Button("Setup") {
+                    Task {
+                        try Bridge.shared.setup()
                     }}
                 .padding()
             } else if (bridge.state == .running) {
                 Button("Reinit") {
                     Task {
-                        bridge.reinit()
+                        Bridge.shared.reinit()
                     }}
                 .padding()
             }

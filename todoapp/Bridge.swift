@@ -15,16 +15,17 @@ import os
 class Bridge: NSObject, ObservableObject {
     private let logger = Logger(subsystem: "Bridge", category: "Networking");
     
+    @Published var progress: Progress = Progress()
     @Published var state: BridgeState = .unknown
     
     static let shared: Bridge = {
         let instance = Bridge()
-        do {
+        /*do {
             try instance.unpackApp();
             try instance.setup();
         } catch(let e) {
             print("Bridge init failed: \(e)");
-        }
+        }*/
         return instance
     }()
 
@@ -87,7 +88,7 @@ class Bridge: NSObject, ObservableObject {
     
     func setup() throws {
         DispatchQueue.main.async {
-            self.state = .setup
+            self.state = .starting
         }
         
         let appdir = home.appendingPathComponent("app")
@@ -113,16 +114,29 @@ class Bridge: NSObject, ObservableObject {
         
         print("Preparing app files \(infoDate.description) installed: \(String(describing: build))")
         
+        DispatchQueue.main.async {
+            self.state = .unpacking
+        }
+        
+        Thread.sleep(forTimeInterval: 2.5)
+        
         let appdir = home.appendingPathComponent("app")
         let info = appdir.appendingPathComponent("releases").appendingPathComponent("start_erl.data")
         
         if (!FileManager.default.fileExists(atPath: info.path)) {
-            try unzipApp(dest: appdir)
+            try unzipApp(dest: appdir, progress: progress)
         } else if (infoDate.description != build){
             try FileManager.default.removeItem(atPath: appdir.path)
-            try unzipApp(dest: appdir)
+            try unzipApp(dest: appdir, progress: progress)
             UserDefaults.standard.set(infoDate.description, forKey: "app_build_date")
         }
+        
+        Thread.sleep(forTimeInterval: 2.5)
+        
+        DispatchQueue.main.async {
+            self.state = .unpacked
+        }
+        
     }
     
     func setupListener() {
@@ -157,10 +171,10 @@ class Bridge: NSObject, ObservableObject {
         return Bundle.main.url(forResource: "app", withExtension: "zip")!
     }
     
-    func unzipApp(dest: URL) throws {
+    func unzipApp(dest: URL, progress: Progress) throws {
         do {
             try FileManager.default.createDirectory(at: dest, withIntermediateDirectories: true, attributes: nil)
-            try FileManager.default.unzipItem(at: zipFile(), to: dest)
+            try FileManager.default.unzipItem(at: zipFile(), to: dest, progress: progress)
             logger.info("Successfully extracted app files to: \(dest.path)")
         } catch {
             logger.error("Failed to extract app files: \(error.localizedDescription)")
@@ -216,6 +230,9 @@ class Bridge: NSObject, ObservableObject {
         case .cancelled:
             logger.error("Bridge Server failure, cancelled")
             exit(EXIT_FAILURE)
+        case .waiting:
+            logger.debug("Bridge Listener waiting")
+            break
         default:
             logger.error("Bridge Server unknown new state, check logs")
             break
@@ -436,7 +453,9 @@ extension Data {
 enum BridgeState: Equatable {
     static func == (lhs: BridgeState, rhs: BridgeState) -> Bool {
             switch (lhs, rhs) {
-            case (.setup, .setup):
+            case (.unpacking, .unpacking):
+                return true
+            case (.unpacked, .unpacked):
                 return true
             case (.starting, .starting):
                 return true
@@ -452,7 +471,8 @@ enum BridgeState: Equatable {
                 return false // Cases are not the same
             }
         }
-    case setup
+    case unpacking
+    case unpacked
     case starting
     case running
     case stopped
