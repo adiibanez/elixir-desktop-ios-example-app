@@ -34,7 +34,8 @@ jobs:
       id: asdf-cache
       with:
         path: |
-          /Users/runner/.asdf
+          $HOME/.asdf/installs/elixir/${{ env.ERLANG_VERSION }}
+          $HOME/.asdf/installs/erlang/${{ env.ELIXIR_VERSION }}
         key: macos-asdf-${{ hashFiles('.tool-versions') }}
         restore-keys: |
           macos-asdf-
