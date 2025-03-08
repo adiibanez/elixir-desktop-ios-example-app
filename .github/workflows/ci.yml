@@ -32,7 +32,6 @@ jobs:
       with:
         path: |
           /Users/runner/.asdf
-          ~/.asdf
         key: macos-asdf-${{ hashFiles('.tool-versions') }}
         restore-keys: |
           macos-asdf-
@@ -69,13 +68,6 @@ jobs:
           ls -la /Users/runner/.asdf/shims/ || true
         fi
 
-    - name: Configure .env for run_mix
-      run: |
-        echo "eval $(brew shellenv)" > .env
-        echo export PATH="$HOME/.asdf/shims:$HOME/.asdf/bin:$HOME/.local/bin/:/opt/homebrew/bin:$PATH" >> .env
-
-        source ~/.bashrc # Load asdf into the current shell
-
     - name: "Installing Erlang/Elixir"
       if: steps.asdf-cache.outputs.cache-hit != 'true' || env.ASDF_INVALID == 'true'
       run: |
@@ -103,7 +95,6 @@ jobs:
       with:
         path: |
           /Users/runner/.asdf
-          ~/.asdf
         key: macos-asdf-${{ hashFiles('.tool-versions') }}
 
     - name: Carthage Cache
