@@ -53,6 +53,9 @@ jobs:
       run: |
         # Reshim after cache restore to ensure binaries are available
         asdf reshim || true
+        erl -version
+        elixir --version
+        whereis mix
         
         # Verify installations
         if ! (asdf which erl && asdf which elixir && asdf which mix) > /dev/null 2>&1; then
