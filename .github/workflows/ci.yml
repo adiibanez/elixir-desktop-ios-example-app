@@ -9,9 +9,7 @@ jobs:
       ELIXIR_VERSION: 1.16.3-otp-26
       APP_BUNDLE_ID: "com.sensocto.iOSErlang"
       XCODE_SCHEME: SensoctoAppErlang
-      CODE_SIGN_IDENTITY: ""
-      CODE_SIGNING_REQUIRED: NO
-
+      
     runs-on: macos-latest
 
     steps:
