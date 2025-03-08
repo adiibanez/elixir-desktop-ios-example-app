@@ -12,6 +12,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
     - uses: actions/checkout@v4
     - name: Install brew dependencies
       run: |
@@ -118,10 +121,9 @@ jobs:
         restore-keys: |
           swift-packages-${{ runner.os }}-
 
-
     - uses: swift-actions/setup-swift@v2
       with:
-        swift-version: "6.0"
+        swift-version: "6.0.0"
     
     - name: Get swift version
       run: swift --version 
@@ -130,6 +132,7 @@ jobs:
       id: build-app
       run: |
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
+      
 
     - name: Save phx deps cache
       if: steps.build-app.outcome == 'success' && steps.phx-deps-cache.outputs.cache-hit != 'true'
