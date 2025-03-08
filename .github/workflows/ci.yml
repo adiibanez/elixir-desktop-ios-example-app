@@ -134,7 +134,7 @@ jobs:
     - name: Build with XCode
       id: build-app
       run: |
-        xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "${{ env.XCODE_SCHEME }}" -derivedDataPath build/
+        xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "${{ env.XCODE_SCHEME }}" -derivedDataPath build/ -skipMacroValidation -skipPackagePluginValidation
       
 
     - name: Save phx deps cache
