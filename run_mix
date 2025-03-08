@@ -32,26 +32,26 @@ mix local.rebar --force --if-missing
 
 export RUSTLER_BTLEPLUG_BUILD=1
 
-rsync -av --delete --exclude 'native' \
-  --exclude 'deps' \
-  --exclude '_build' \
-  --exclude '.vscode' \
-  --exclude '.elixir_ls' \
-  --exclude "priv/share/xcodegen" \
-  --exclude "priv/templates/lvn.swiftui.gen" \
-  ../elixir_desktop_lvn/ elixir-app
+# rsync -av --delete --exclude 'native' \
+#   --exclude 'deps' \
+#   --exclude '_build' \
+#   --exclude '.vscode' \
+#   --exclude '.elixir_ls' \
+#   --exclude "priv/share/xcodegen" \
+#   --exclude "priv/templates/lvn.swiftui.gen" \
+#   ../elixir_desktop_lvn/ elixir-app
 
-# if [ ! -d "elixir-app" ]; then
-  
-#   git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
-#   # git clone --local ../desktop-example-app elixir-app
-#   #ln -s ../desktop-example-app elixir-app
-# else 
-#   cd elixir-app
-#   git reset --hard
-#   git pull
-#   cd ..
-# fi
+if [ ! -d "elixir-app" ]; then
+  #git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
+  git clone https://github.com/adiibanez/elixir-desktop-example-lvn elixir-app
+  # git clone --local ../desktop-example-app elixir-app
+  #ln -s ../desktop-example-app elixir-app
+else
+  cd elixir-app
+  git reset --hard
+  git pull
+  cd ..
+fi
 
 #git pull origin
 
