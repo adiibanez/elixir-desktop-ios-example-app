@@ -8,6 +8,7 @@ jobs:
       ERLANG_VERSION: 26.2.5.6
       ELIXIR_VERSION: 1.16.3-otp-26
       APP_BUNDLE_ID: "com.sensocto.iOSErlang"
+      XCODE_SCHEME: SensoctoAppErlang
 
     runs-on: macos-latest
 
@@ -131,7 +132,7 @@ jobs:
     - name: Build with XCode
       id: build-app
       run: |
-        xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "example" -derivedDataPath build/
+        xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "${{ env.XCODE_SCHEME }}" -derivedDataPath build/
       
 
     - name: Save phx deps cache
