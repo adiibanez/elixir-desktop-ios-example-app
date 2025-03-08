@@ -1,0 +1,43 @@
+name: SensoctoAppErlang
+#options:
+#  bundleIdPrefix: com.sensocto
+  #developmentTeam: 7D9Z44N844
+include:
+  - path: base_spec.yml
+    relativePaths: false
+#  - path: "project_watchos.yml"
+#    relativePaths: false
+targets:
+  "SensoctoAppErlang":
+    type: application
+    supportedDestinations:
+      - iOS
+      - macOS
+      - tvOS
+    deploymentTarget:
+      iOS: "16.0"
+      tvOS: "16.0"
+      macOS: "14.0"
+    sources:
+      - Sources
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.sensocto.SensoctoAppErlang
+    dependencies:
+      - package: LiveViewNative
+#      - package: LiveViewNativeLiveForm
+      #- package: LiveViewNativeBleClient
+      - package: ZipFoundation
+  "SensoctoAppErlang Watch App":
+    type: application
+    platform: watchOS
+    deploymentTarget:
+      watchOS: "9.0"
+    sources:
+      - Sources
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.sensocto.SensoctoAppErlang.watchkit
+    dependencies:
+      - package: LiveViewNative
+#      - package: LiveViewNativeLiveForm
+      #- package: LiveViewNativeBleClient
+      - package: ZipFoundation

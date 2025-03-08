@@ -1,0 +1,688 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		006E2D52807F6A3080FFD242 /* LvnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEE9CE3CA97E785CDA2BA2 /* LvnView.swift */; };
+		053A988C766C7D15CA592228 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD136698C0A6F68D2FACC5 /* Bridge.swift */; };
+		0D77C6FE2D7B184500C6E56D /* liberlang.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */; };
+		0D77C7012D7B186800C6E56D /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 0D77C7002D7B186800C6E56D /* ZIPFoundation */; };
+		0D77C7042D7B18C500C6E56D /* native-lib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7032D7B18C500C6E56D /* native-lib.cpp */; };
+		0D77C7072D7B1F8000C6E56D /* LvnSocketSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7062D7B1F8000C6E56D /* LvnSocketSingleton.swift */; };
+		0D77C7082D7B1F8000C6E56D /* LvnSocketSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7062D7B1F8000C6E56D /* LvnSocketSingleton.swift */; };
+		0D77C70A2D7B8CA700C6E56D /* iOSAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7092D7B8CA200C6E56D /* iOSAppDelegate.swift */; };
+		0D77C70B2D7B8CA700C6E56D /* iOSAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7092D7B8CA200C6E56D /* iOSAppDelegate.swift */; };
+		0D77C70D2D7B8D4600C6E56D /* AuthTokenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C70C2D7B8D4600C6E56D /* AuthTokenHelper.swift */; };
+		0D77C70E2D7B8D4600C6E56D /* AuthTokenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C70C2D7B8D4600C6E56D /* AuthTokenHelper.swift */; };
+		0D77C7102D7BC4A700C6E56D /* BridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C70F2D7BC49800C6E56D /* BridgeView.swift */; };
+		0D77C7112D7BC4A700C6E56D /* BridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C70F2D7BC49800C6E56D /* BridgeView.swift */; };
+		0D77C7132D7C600E00C6E56D /* BridgeView.swift_baremin.txt in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7122D7C600B00C6E56D /* BridgeView.swift_baremin.txt */; };
+		0D77C7142D7C600E00C6E56D /* BridgeView.swift_baremin.txt in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7122D7C600B00C6E56D /* BridgeView.swift_baremin.txt */; };
+		0D77C7192D7C6B9A00C6E56D /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 0D77C7182D7C6B9A00C6E56D /* ZIPFoundation */; };
+		0D77C71A2D7C8BFD00C6E56D /* liberlang.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */; };
+		0D77C71B2D7C8BFD00C6E56D /* liberlang.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		106783D72ACA436B8979E534 /* app.zip in Resources */ = {isa = PBXBuildFile; fileRef = E6F25079CE334DF4B50A5BC6 /* app.zip */; };
+		13288D6EE92B792E9A305D88 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B422737032CD674B85CA7024 /* ContentView.swift */; };
+		23AC277B421B56ABE2D65816 /* ConnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C301747EE0D63B1833836931 /* ConnectingView.swift */; };
+		312ACEAABF88A22DAC33F27E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98479508E49EE74A791031F8 /* Preview Assets.xcassets */; };
+		4383DF4D36F17898A2A3C4F7 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C295580DC5EF2701E92AB6 /* ErrorView.swift */; };
+		476637B2B47D7DB5B307163B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0429CC3EE3EADFCFDE2549A0 /* Assets.xcassets */; };
+		58500DB3F19802DC94337F19 /* LiveViewNative in Frameworks */ = {isa = PBXBuildFile; productRef = 8BD15E5FAC24662A59092A95 /* LiveViewNative */; };
+		5FC03FC31393BF5E907CAECA /* TodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399EC91FACCC986130B6D54A /* TodoApp.swift */; };
+		69D43F182DF6093B50F07604 /* DisconnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96961486954FAB6ECC0EE35 /* DisconnectedView.swift */; };
+		8135669B2755194FC8AD5DE4 /* ReconnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91BFB0214A98B1E20E61D /* ReconnectingView.swift */; };
+		8695E9A4D2A37E8C36A0E63A /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2711918EB38A03416D2EADDC /* WebViewController.swift */; };
+		8819FD140B17382269F65839 /* LvnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEE9CE3CA97E785CDA2BA2 /* LvnView.swift */; };
+		8F305B3BFB17CB15F2A73EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22889DCC2FD9987DFD9A34F7 /* Assets.xcassets */; };
+		9007D4F3BAA59F346E51ADA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0429CC3EE3EADFCFDE2549A0 /* Assets.xcassets */; };
+		9827E208CBB4BFE426BDB9A9 /* ReconnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91BFB0214A98B1E20E61D /* ReconnectingView.swift */; };
+		9A26F2EA2B625BE65FCCFCB5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD28016A538625BC28F20EA /* WebView.swift */; };
+		AF8FFE9CC3C1B737EA7E54CD /* LiveViewNative in Frameworks */ = {isa = PBXBuildFile; productRef = 669B1074A78B64684F95EA75 /* LiveViewNative */; };
+		AFC7B9CD23CBF95027391F21 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C295580DC5EF2701E92AB6 /* ErrorView.swift */; };
+		B7BB015E88121A4415A71E26 /* ConnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C301747EE0D63B1833836931 /* ConnectingView.swift */; };
+		BC9C22414A8AD2FF352F7628 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2711918EB38A03416D2EADDC /* WebViewController.swift */; };
+		BDF053E30A8FE2B3DB87C92E /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD136698C0A6F68D2FACC5 /* Bridge.swift */; };
+		BE4597BAC658F666175AAA2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22889DCC2FD9987DFD9A34F7 /* Assets.xcassets */; };
+		CAC8B4A136B21B6FCC6F8BD6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98479508E49EE74A791031F8 /* Preview Assets.xcassets */; };
+		D3DE5FC78736AFC1AD01752F /* DisconnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96961486954FAB6ECC0EE35 /* DisconnectedView.swift */; };
+		E466C529F6B8E6D7549045E7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B422737032CD674B85CA7024 /* ContentView.swift */; };
+		E9429B1408B71DC3A549CFFC /* app.zip in Resources */ = {isa = PBXBuildFile; fileRef = E6F25079CE334DF4B50A5BC6 /* app.zip */; };
+		EE7D6441C5EA07A5975AC5A3 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD28016A538625BC28F20EA /* WebView.swift */; };
+		FF1492E3075F97570703C68E /* TodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399EC91FACCC986130B6D54A /* TodoApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0D77C71C2D7C8BFD00C6E56D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0D77C71B2D7C8BFD00C6E56D /* liberlang.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00C295580DC5EF2701E92AB6 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		0429CC3EE3EADFCFDE2549A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = liberlang.xcframework; sourceTree = "<group>"; };
+		0D77C7022D7B18C500C6E56D /* native-lib.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "native-lib.hpp"; sourceTree = "<group>"; };
+		0D77C7032D7B18C500C6E56D /* native-lib.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "native-lib.cpp"; sourceTree = "<group>"; };
+		0D77C7062D7B1F8000C6E56D /* LvnSocketSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LvnSocketSingleton.swift; sourceTree = "<group>"; };
+		0D77C7092D7B8CA200C6E56D /* iOSAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSAppDelegate.swift; sourceTree = "<group>"; };
+		0D77C70C2D7B8D4600C6E56D /* AuthTokenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenHelper.swift; sourceTree = "<group>"; };
+		0D77C70F2D7BC49800C6E56D /* BridgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeView.swift; sourceTree = "<group>"; };
+		0D77C7122D7C600B00C6E56D /* BridgeView.swift_baremin.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = BridgeView.swift_baremin.txt; sourceTree = "<group>"; };
+		1CFFFB1FF207131D19A918F7 /* SensoctoAppErlang Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SensoctoAppErlang Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		22889DCC2FD9987DFD9A34F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2711918EB38A03416D2EADDC /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		399EC91FACCC986130B6D54A /* TodoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoApp.swift; sourceTree = "<group>"; };
+		5EF91BFB0214A98B1E20E61D /* ReconnectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReconnectingView.swift; sourceTree = "<group>"; };
+		65E064FF9BC1B716E9FA4C29 /* SensoctoAppErlang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SensoctoAppErlang.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AD28016A538625BC28F20EA /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		731B89942ABDBECB6B8F33A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		89AD136698C0A6F68D2FACC5 /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
+		98479508E49EE74A791031F8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A96961486954FAB6ECC0EE35 /* DisconnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectedView.swift; sourceTree = "<group>"; };
+		B422737032CD674B85CA7024 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C301747EE0D63B1833836931 /* ConnectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectingView.swift; sourceTree = "<group>"; };
+		E2AEE9CE3CA97E785CDA2BA2 /* LvnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LvnView.swift; sourceTree = "<group>"; };
+		E6F25079CE334DF4B50A5BC6 /* app.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = app.zip; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3EC6B1F2536B5CBB605C7A23 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D77C6FE2D7B184500C6E56D /* liberlang.xcframework in Frameworks */,
+				58500DB3F19802DC94337F19 /* LiveViewNative in Frameworks */,
+				0D77C7012D7B186800C6E56D /* ZIPFoundation in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A85349C1FFE0238E18E0C37 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D77C71A2D7C8BFD00C6E56D /* liberlang.xcframework in Frameworks */,
+				AF8FFE9CC3C1B737EA7E54CD /* LiveViewNative in Frameworks */,
+				0D77C7192D7C6B9A00C6E56D /* ZIPFoundation in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0D77C6FF2D7B186800C6E56D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		20A4980372BE0DC0C8A2C1CE = {
+			isa = PBXGroup;
+			children = (
+				0D77C7022D7B18C500C6E56D /* native-lib.hpp */,
+				0D77C7032D7B18C500C6E56D /* native-lib.cpp */,
+				0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */,
+				507963BE776E3D41B87520DD /* Sources */,
+				42CAA21B6088BE0A7AAF9ADE /* Products */,
+				0D77C6FF2D7B186800C6E56D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		42CAA21B6088BE0A7AAF9ADE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1CFFFB1FF207131D19A918F7 /* SensoctoAppErlang Watch App.app */,
+				65E064FF9BC1B716E9FA4C29 /* SensoctoAppErlang.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		507963BE776E3D41B87520DD /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				0D77C7122D7C600B00C6E56D /* BridgeView.swift_baremin.txt */,
+				0D77C70F2D7BC49800C6E56D /* BridgeView.swift */,
+				0D77C7092D7B8CA200C6E56D /* iOSAppDelegate.swift */,
+				0D77C7062D7B1F8000C6E56D /* LvnSocketSingleton.swift */,
+				0D77C70C2D7B8D4600C6E56D /* AuthTokenHelper.swift */,
+				B21D3940CE59A3D5566E1DB3 /* Preview Content */,
+				E6F25079CE334DF4B50A5BC6 /* app.zip */,
+				0429CC3EE3EADFCFDE2549A0 /* Assets.xcassets */,
+				89AD136698C0A6F68D2FACC5 /* Bridge.swift */,
+				C301747EE0D63B1833836931 /* ConnectingView.swift */,
+				B422737032CD674B85CA7024 /* ContentView.swift */,
+				A96961486954FAB6ECC0EE35 /* DisconnectedView.swift */,
+				00C295580DC5EF2701E92AB6 /* ErrorView.swift */,
+				731B89942ABDBECB6B8F33A3 /* Info.plist */,
+				E2AEE9CE3CA97E785CDA2BA2 /* LvnView.swift */,
+				5EF91BFB0214A98B1E20E61D /* ReconnectingView.swift */,
+				399EC91FACCC986130B6D54A /* TodoApp.swift */,
+				6AD28016A538625BC28F20EA /* WebView.swift */,
+				2711918EB38A03416D2EADDC /* WebViewController.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		B21D3940CE59A3D5566E1DB3 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				22889DCC2FD9987DFD9A34F7 /* Assets.xcassets */,
+				98479508E49EE74A791031F8 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E99BCC9B2CCF5A4DF94C0CBC /* SensoctoAppErlang Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2127D3009AF18BFC23A6C30E /* Build configuration list for PBXNativeTarget "SensoctoAppErlang Watch App" */;
+			buildPhases = (
+				21B4646BD65FBB2B171086DA /* Sources */,
+				4D6DE872296F51E6D45E1F48 /* Resources */,
+				8A85349C1FFE0238E18E0C37 /* Frameworks */,
+				0D77C71C2D7C8BFD00C6E56D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SensoctoAppErlang Watch App";
+			packageProductDependencies = (
+				669B1074A78B64684F95EA75 /* LiveViewNative */,
+				0D77C7182D7C6B9A00C6E56D /* ZIPFoundation */,
+			);
+			productName = "SensoctoAppErlang Watch App";
+			productReference = 1CFFFB1FF207131D19A918F7 /* SensoctoAppErlang Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F8651901A1772ED4B8413339 /* SensoctoAppErlang */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E048466A1A713AA803B366B1 /* Build configuration list for PBXNativeTarget "SensoctoAppErlang" */;
+			buildPhases = (
+				045D64742740DF2C22C3BCFB /* Sources */,
+				0D77C7052D7B1D7600C6E56D /* ShellScript */,
+				50EE992D2E6438A4441881AD /* Resources */,
+				3EC6B1F2536B5CBB605C7A23 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SensoctoAppErlang;
+			packageProductDependencies = (
+				8BD15E5FAC24662A59092A95 /* LiveViewNative */,
+				0D77C7002D7B186800C6E56D /* ZIPFoundation */,
+			);
+			productName = SensoctoAppErlang;
+			productReference = 65E064FF9BC1B716E9FA4C29 /* SensoctoAppErlang.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5365B3736C4F0AF4DA135918 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					E99BCC9B2CCF5A4DF94C0CBC = {
+						DevelopmentTeam = 46KPTB8WG4;
+					};
+					F8651901A1772ED4B8413339 = {
+						DevelopmentTeam = 46KPTB8WG4;
+					};
+				};
+			};
+			buildConfigurationList = 04431E8E2A0A76B670FD5399 /* Build configuration list for PBXProject "SensoctoAppErlang" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 20A4980372BE0DC0C8A2C1CE;
+			packageReferences = (
+				3B0BDD9893918A31A8C26E81 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */,
+				DB1FBC3D8599AE5803B49B12 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+			);
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F8651901A1772ED4B8413339 /* SensoctoAppErlang */,
+				E99BCC9B2CCF5A4DF94C0CBC /* SensoctoAppErlang Watch App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4D6DE872296F51E6D45E1F48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				476637B2B47D7DB5B307163B /* Assets.xcassets in Resources */,
+				8F305B3BFB17CB15F2A73EE7 /* Assets.xcassets in Resources */,
+				312ACEAABF88A22DAC33F27E /* Preview Assets.xcassets in Resources */,
+				E9429B1408B71DC3A549CFFC /* app.zip in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50EE992D2E6438A4441881AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9007D4F3BAA59F346E51ADA4 /* Assets.xcassets in Resources */,
+				BE4597BAC658F666175AAA2B /* Assets.xcassets in Resources */,
+				CAC8B4A136B21B6FCC6F8BD6 /* Preview Assets.xcassets in Resources */,
+				106783D72ACA436B8979E534 /* app.zip in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0D77C7052D7B1D7600C6E56D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n./run_mix\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		045D64742740DF2C22C3BCFB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDF053E30A8FE2B3DB87C92E /* Bridge.swift in Sources */,
+				0D77C7042D7B18C500C6E56D /* native-lib.cpp in Sources */,
+				23AC277B421B56ABE2D65816 /* ConnectingView.swift in Sources */,
+				0D77C7142D7C600E00C6E56D /* BridgeView.swift_baremin.txt in Sources */,
+				0D77C7082D7B1F8000C6E56D /* LvnSocketSingleton.swift in Sources */,
+				E466C529F6B8E6D7549045E7 /* ContentView.swift in Sources */,
+				D3DE5FC78736AFC1AD01752F /* DisconnectedView.swift in Sources */,
+				0D77C7102D7BC4A700C6E56D /* BridgeView.swift in Sources */,
+				4383DF4D36F17898A2A3C4F7 /* ErrorView.swift in Sources */,
+				8819FD140B17382269F65839 /* LvnView.swift in Sources */,
+				0D77C70A2D7B8CA700C6E56D /* iOSAppDelegate.swift in Sources */,
+				9827E208CBB4BFE426BDB9A9 /* ReconnectingView.swift in Sources */,
+				FF1492E3075F97570703C68E /* TodoApp.swift in Sources */,
+				EE7D6441C5EA07A5975AC5A3 /* WebView.swift in Sources */,
+				BC9C22414A8AD2FF352F7628 /* WebViewController.swift in Sources */,
+				0D77C70E2D7B8D4600C6E56D /* AuthTokenHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21B4646BD65FBB2B171086DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D77C70B2D7B8CA700C6E56D /* iOSAppDelegate.swift in Sources */,
+				053A988C766C7D15CA592228 /* Bridge.swift in Sources */,
+				B7BB015E88121A4415A71E26 /* ConnectingView.swift in Sources */,
+				13288D6EE92B792E9A305D88 /* ContentView.swift in Sources */,
+				69D43F182DF6093B50F07604 /* DisconnectedView.swift in Sources */,
+				AFC7B9CD23CBF95027391F21 /* ErrorView.swift in Sources */,
+				0D77C7132D7C600E00C6E56D /* BridgeView.swift_baremin.txt in Sources */,
+				006E2D52807F6A3080FFD242 /* LvnView.swift in Sources */,
+				0D77C7112D7BC4A700C6E56D /* BridgeView.swift in Sources */,
+				8135669B2755194FC8AD5DE4 /* ReconnectingView.swift in Sources */,
+				0D77C7072D7B1F8000C6E56D /* LvnSocketSingleton.swift in Sources */,
+				5FC03FC31393BF5E907CAECA /* TodoApp.swift in Sources */,
+				0D77C70D2D7B8D4600C6E56D /* AuthTokenHelper.swift in Sources */,
+				9A26F2EA2B625BE65FCCFCB5 /* WebView.swift in Sources */,
+				8695E9A4D2A37E8C36A0E63A /* WebViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3A8264EDCA5DC4CFB90A6C85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CMAKE_OSX_DEPLOYMENT_TARGET = 14.0;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 46KPTB8WG4;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_BGTaskSchedulerPermittedIdentifiers = com.sensocto.SensoctoAppErlang.periodicTask;
+				INFOPLIST_KEY_CFBundleDisplayName = SensoctoAppErlang;
+				INFOPLIST_KEY_CFBundleURLTypes = sensocto;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = BLEClient;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = BLEClient;
+				INFOPLIST_KEY_UIBackgroundModes = "bluetooth-central remote-notification bluetooth-peripheral processing external-accessory location fetch workout-processing nearby-interaction";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sensocto.SensoctoAppErlang;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "native-lib.hpp";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		4FBD2D04D34A986D7C8C9C15 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Sources/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sensocto.SensoctoAppErlang.watchkit;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		56C9A603C4D7AF9F4436B109 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Sources/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sensocto.SensoctoAppErlang.watchkit;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		A1ED323594DE0BB55182AC95 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CMAKE_OSX_DEPLOYMENT_TARGET = 14.0;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 46KPTB8WG4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_BGTaskSchedulerPermittedIdentifiers = com.sensocto.SensoctoAppErlang.periodicTask;
+				INFOPLIST_KEY_CFBundleDisplayName = SensoctoAppErlang;
+				INFOPLIST_KEY_CFBundleURLTypes = sensocto;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = BLEClient;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = BLEClient;
+				INFOPLIST_KEY_UIBackgroundModes = "bluetooth-central remote-notification bluetooth-peripheral processing external-accessory location fetch workout-processing nearby-interaction";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sensocto.SensoctoAppErlang;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "native-lib.hpp";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = 16.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		D70A80B10A8AAF68B3FA4038 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TodoApp;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = BLEClient;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = BLEClient;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sensocto.SensoctoAppErlang;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sensocto.SensoctoAppErlang;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				TARGETED_DEVICE_FAMILY = "1,2,3";
+			};
+			name = Release;
+		};
+		F0524FDE7080712EA76D6D7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TodoApp;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = BLEClient;
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = BLEClient;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sensocto.SensoctoAppErlang;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sensocto.iOSErlang;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				TARGETED_DEVICE_FAMILY = "1,2,3";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		04431E8E2A0A76B670FD5399 /* Build configuration list for PBXProject "SensoctoAppErlang" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1ED323594DE0BB55182AC95 /* Debug */,
+				3A8264EDCA5DC4CFB90A6C85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2127D3009AF18BFC23A6C30E /* Build configuration list for PBXNativeTarget "SensoctoAppErlang Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FBD2D04D34A986D7C8C9C15 /* Debug */,
+				56C9A603C4D7AF9F4436B109 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E048466A1A713AA803B366B1 /* Build configuration list for PBXNativeTarget "SensoctoAppErlang" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F0524FDE7080712EA76D6D7C /* Debug */,
+				D70A80B10A8AAF68B3FA4038 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3B0BDD9893918A31A8C26E81 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/liveview-native/liveview-client-swiftui";
+			requirement = {
+				branch = "0.4.0-rc.0";
+				kind = branch;
+			};
+		};
+		DB1FBC3D8599AE5803B49B12 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0D77C7002D7B186800C6E56D /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DB1FBC3D8599AE5803B49B12 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+		0D77C7182D7C6B9A00C6E56D /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DB1FBC3D8599AE5803B49B12 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+		669B1074A78B64684F95EA75 /* LiveViewNative */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B0BDD9893918A31A8C26E81 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */;
+			productName = LiveViewNative;
+		};
+		8BD15E5FAC24662A59092A95 /* LiveViewNative */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B0BDD9893918A31A8C26E81 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */;
+			productName = LiveViewNative;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 5365B3736C4F0AF4DA135918 /* Project object */;
+}

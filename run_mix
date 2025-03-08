@@ -145,12 +145,15 @@ ls -lah
 ARCHIVE="$BASE/todoapp/app.zip"
 echo "BASE: $BASE"
 # 1. Create the initial archive (excluding .so files) -q = quiet
-zip -q -9r "$ARCHIVE" lib/ releases/ --exclude "*.so"
+
+ls -lah 
+
+zip -9r "$ARCHIVE" lib/ releases/ --exclude "*.so"
 
 # find $BASE -name "libbtleplug_*.so"
 
 # 2. Add the specific .so file
-zip -q -g $ARCHIVE `find . -name "libbtleplug_*.so" | head -1` || true
+# zip -g $ARCHIVE `find . -name "libbtleplug_*.so" | head -1` || true
 
 #zip -9r "$BASE/todoapp/app.zip" lib/ releases/ --exclude "*.so" 
 #zip -9r "$BASE/todoapp/app.zip" lib/ releases/ --exclude "*.so" --include "libbtleplug_client*.so"

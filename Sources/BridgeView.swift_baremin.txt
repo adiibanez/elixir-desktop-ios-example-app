@@ -1,0 +1,86 @@
+import SwiftUI
+import os
+
+struct BridgeView: View {
+    @ObservedObject var bridge: Bridge = Bridge.shared
+
+    var body: some View {
+        VStack {
+            Text("Bridge Status: \(bridgeStateMessage(bridge.state))")
+                .foregroundColor(bridgeStateColor(bridge.state))
+                .padding()
+            
+            if case .failed(let error) = bridge.state {
+                Text("Error: \(error.localizedDescription)")
+                    .foregroundColor(.red)
+                    .padding()
+            }
+
+            Button("Test Response") {
+                Task {
+                    guard let url = bridge.lastURL else { return }
+                    let urlString = url.absoluteString.replacingOccurrences(of: "localhost", with: "127.0.0.1")
+                    _ = try? await URLSession.shared.data(from: URL(string: urlString)!)
+                }
+            }
+            .padding()
+
+            Button(action: handleStateChange) {
+                Text(actionButtonTitle)
+            }
+            .padding()
+        }
+        .onAppear {
+            print("Bridge state: \(bridge.state)")
+        }
+        .onChange(of: bridge.state) { newValue in
+            print("Bridge state changed to: \(newValue)")
+        }
+    }
+
+    private var actionButtonTitle: String {
+        switch bridge.state {
+        case .unknown: return "Unpack"
+        case .stopped: return "Start"
+        case .unpacked: return "Setup"
+        case .running: return "Reinit"
+        default: return "Loading..."
+        }
+    }
+
+    private func handleStateChange() {
+        Task {
+            switch bridge.state {
+            case .unknown: try? Bridge.shared.unpackApp()
+            case .stopped:
+                try? Bridge.shared.setup()
+                try? Bridge.shared.reinit()
+            case .unpacked: try? Bridge.shared.setup()
+            case .running: Bridge.shared.reinit()
+            default: break
+            }
+        }
+    }
+
+    private func bridgeStateColor(_ state: BridgeState) -> Color {
+        switch state {
+        case .failed: return .red
+        case .running: return .green
+        case .starting: return .orange
+        case .unpacking: return .blue
+        default: return .gray
+        }
+    }
+
+    private func bridgeStateMessage(_ state: BridgeState) -> String {
+        switch state {
+        case .starting: return "Starting... 🟠"
+        case .unpacking: return "Unpacking... 🟠"
+        case .unpacked: return "Unpacked ✅"
+        case .running: return "Running ✅"
+        case .stopped: return "Stopped ❌"
+        case .failed(let error): return "Error: \(error.localizedDescription)"
+        case .unknown: return "Unknown"
+        }
+    }
+}

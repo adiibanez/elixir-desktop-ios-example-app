@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "008561E4-FC45-4F9E-BAB8-1006616D37D2"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BF9E2E90-A681-4F7F-9751-37B52D19C3F8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sources/BridgeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "setupUI"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "77C8E491-59F6-4A6A-9647-800B0283A11B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sources/BridgeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "setupUI"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E7BFCB13-6FDB-4679-9FB4-3AA2EBFAA983"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sources/BridgeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "setupUI"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6A2F24DA-60F9-40F2-9853-3E5E85D86027"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sources/LvnSocketSingleton.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "handleUrlAvailable(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6A2F24DA-60F9-40F2-9853-3E5E85D86027 - d52afc7b4fc9041c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SensoctoAppErlang.LvnSocketSingleton.handleUrlAvailable(Swift.Optional&lt;Foundation.URL&gt;) -&gt; ()"
+                  moduleName = "SensoctoAppErlang.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adrianibanez/Documents/projects/2024_sensor-platform/checkouts/elixir-desktop-ios-example-app/Sources/LvnSocketSingleton.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96">
+               </Location>
+               <Location
+                  uuid = "6A2F24DA-60F9-40F2-9853-3E5E85D86027 - b5be75819a109bf2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () async -&gt; () in SensoctoAppErlang.LvnSocketSingleton.handleUrlAvailable(Swift.Optional&lt;Foundation.URL&gt;) -&gt; ()"
+                  moduleName = "SensoctoAppErlang.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adrianibanez/Documents/projects/2024_sensor-platform/checkouts/elixir-desktop-ios-example-app/Sources/LvnSocketSingleton.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96">
+               </Location>
+               <Location
+                  uuid = "6A2F24DA-60F9-40F2-9853-3E5E85D86027 - 546897efea786bd9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in SensoctoAppErlang.LvnSocketSingleton.handleUrlAvailable(Swift.Optional&lt;Foundation.URL&gt;) -&gt; ()"
+                  moduleName = "SensoctoAppErlang.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/adrianibanez/Documents/projects/2024_sensor-platform/checkouts/elixir-desktop-ios-example-app/Sources/LvnSocketSingleton.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
