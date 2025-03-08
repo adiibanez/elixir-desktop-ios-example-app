@@ -239,14 +239,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-					E99BCC9B2CCF5A4DF94C0CBC = {
-						DevelopmentTeam = 46KPTB8WG4;
-					};
-					F8651901A1772ED4B8413339 = {
-						DevelopmentTeam = 46KPTB8WG4;
-					};
-				};
 			};
 			buildConfigurationList = 04431E8E2A0A76B670FD5399 /* Build configuration list for PBXProject "SensoctoAppErlang" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -445,6 +437,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sensocto.SensoctoAppErlang.watchkit;
 				SDKROOT = watchos;
@@ -584,6 +577,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Sources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TodoApp;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = BLEClient;
