@@ -140,9 +140,9 @@ jobs:
     #     restore-keys: |
     #       swift-packages-${{ runner.os }}-
 
-    - uses: swift-actions/setup-swift@v2
-      with:
-        swift-version: "6.0.0"
+    # - uses: swift-actions/setup-swift@v2
+    #   with:
+    #     swift-version: "6.0.0"
     
     - name: Get swift version
       run: swift --version 
@@ -152,7 +152,6 @@ jobs:
       run: |
         xcodebuild -sdk iphonesimulator -arch arm64 -configuration Debug -scheme "${{ env.XCODE_SCHEME }}" -derivedDataPath build/ -skipMacroValidation -skipPackagePluginValidation
       
-
     - name: Save phx deps cache
       if: steps.build-app.outcome == 'success' && steps.phx-deps-cache.outputs.cache-hit != 'true'
       uses: actions/cache/save@v3
