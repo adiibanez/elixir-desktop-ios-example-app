@@ -15,7 +15,6 @@ struct LvnView: View {
     
     var body: some View {
         Group{
-            
             if(lastURL != nil ) {
                 #LiveView(
                     .automatic(
@@ -23,7 +22,10 @@ struct LvnView: View {
                         //development: .localhost(port: 10000, path: "/lvn"),
                         development: Bridge.shared.lastURL! as URL,
                         production: Bridge.shared.lastURL! as URL // URL(string: "https://example.com")!
-                    )
+                    ),
+                    addons: [
+                        .ble
+                     ]
                 ) {
                     ConnectingView()
                 } disconnected: {

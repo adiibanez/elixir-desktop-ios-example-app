@@ -14,6 +14,7 @@ import UIKit
 #endif
 import WebKit
 import os
+import LiveViewNativeBleClient
 
 struct BridgeView: View {
     let logger = Logger(subsystem: "BridgeView", category: "UI");
@@ -48,12 +49,14 @@ struct BridgeView: View {
                     .foregroundColor(.red)
                     .padding()
             }
+            Text("Test \(bridge.lastURL?.absoluteString ?? "")")
         }.onChange(of: bridge.state, perform: updateUI)
+        
         /*}.background(
-            Color.clear.onAppear {
-                updateUI(self.bridge.state)
-            }.onChange(of: bridge.state) { newValue in updateUI(newValue) }
-        )*/
+         Color.clear.onAppear {
+         updateUI(self.bridge.state)
+         }.onChange(of: bridge.state) { newValue in updateUI(newValue) }
+         )*/
     }
     
     func updateUI(_ state: BridgeState) {
@@ -102,7 +105,7 @@ struct BridgeView: View {
 
 extension BridgeView {
     private var statusUIText: some View {
-        Text("Bridge Status: \(bridgeStateMessage(bridge.state))")
+        Text("Bridge Status: \(bridgeStateMessage(bridge.state)) P:\(bridge.getBridgePort())")
             .foregroundColor(bridgeStateColor(bridge.state))
             .padding()
         

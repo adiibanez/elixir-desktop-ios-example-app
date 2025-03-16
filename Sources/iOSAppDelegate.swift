@@ -5,6 +5,7 @@ import UIKit
 import SwiftUI
 import LiveViewNative
 import UserNotifications
+import LiveViewNativeCore
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
@@ -23,7 +24,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             .LaunchOptionsKey: Any]?
     ) -> Bool {
         
+        Task {
+            try Bridge.shared.unpackApp();
+        }
+        //let appZip = Bundle.main.url(forResource: "app", withExtension: "zip")
+        //print("AppDelegate: \(String(describing: appZip))")
         
+        /*do {
+            try Bridge.shared.unpackApp();
+        } catch {
+            print("Failed to unpack app: \(error)")
+        }*/
+        
+        /*Task {
+            try Bridge.shared.unpackApp();
+        }*/
         /*let backgroundService = BackgroundService()
         backgroundService.registerBackgroundTask()
         

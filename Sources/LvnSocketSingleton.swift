@@ -6,14 +6,14 @@ import UniformTypeIdentifiers
 import PhoenixChannelsClientFFI
 import Combine
 import os
+import LiveViewNativeBleClient
 
 struct MyAppRegistry: RootRegistry {
 }
 
-
 /*struct MyAppRegistry: AggregateRegistry {
     #Registries<
-        //Addons.CustomUrlOpener<Self>
+        Addons.bleClient<Self>
     #Root
     >
 }*/

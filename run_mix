@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 # read .env file if available
-source .env || true
+source .env
 
 # Setting up the PATH environment
-#[ -s /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
-#[ -s /usr/local/bin/brew ] && eval $(/usr/local/bin/brew shellenv)
+[ -s /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
+[ -s /usr/local/bin/brew ] && eval $(/usr/local/bin/brew shellenv)
 
 # # This loads nvm
 # export NVM_DIR="$HOME/.nvm"
@@ -31,28 +31,26 @@ export MIX_TARGET=ios
 mix local.hex --force --if-missing
 mix local.rebar --force --if-missing
 
-export RUSTLER_BTLEPLUG_BUILD=1
+rsync -av --delete --exclude 'native' \
+  --exclude 'deps' \
+  --exclude '_build' \
+  --exclude '.vscode' \
+  --exclude '.elixir_ls' \
+  --exclude "priv/share/xcodegen" \
+  --exclude "priv/templates/lvn.swiftui.gen" \
+  ../elixir_desktop_lvn/ elixir-app
 
-# rsync -av --delete --exclude 'native' \
-#   --exclude 'deps' \
-#   --exclude '_build' \
-#   --exclude '.vscode' \
-#   --exclude '.elixir_ls' \
-#   --exclude "priv/share/xcodegen" \
-#   --exclude "priv/templates/lvn.swiftui.gen" \
-#   ../elixir_desktop_lvn/ elixir-app
-
-if [ ! -d "elixir-app" ]; then
-  #git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
-  git clone https://github.com/adiibanez/elixir-desktop-example-lvn elixir-app
-  # git clone --local ../desktop-example-app elixir-app
-  #ln -s ../desktop-example-app elixir-app
-else
-  cd elixir-app
-  git reset --hard
-  git pull
-  cd ..
-fi
+# if [ ! -d "elixir-app" ]; then
+#   #git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
+#   git clone https://github.com/adiibanez/elixir-desktop-example-lvn elixir-app
+#   # git clone --local ../desktop-example-app elixir-app
+#   #ln -s ../desktop-example-app elixir-app
+# else
+#   cd elixir-app
+#   git reset --hard
+#   git pull
+#   cd ..
+# fi
 
 #git pull origin
 
@@ -76,11 +74,6 @@ fi
 if [ ! -d "assets/node_modules" ]; then
   cd assets && npm i && cd ..
 fi
-
-if [ -f "$BASE/todoapp/app.zip" ]; then
-  rm "$BASE/todoapp/app.zip"
-fi
-
 
 PLATFORM_NAME="${PLATFORM_NAME}"
 ARCHS="${ARCHS}"
@@ -113,7 +106,7 @@ if [ "$PLATFORM_NAME" == "macos" ]; then
 fi
 
 echo "Building for platform: $PLATFORM_NAME, architecture: $ARCHS, Rust target: $RUST_TARGET"
-echo "Rust targets: `rustup target list | grep $RUST_TARGET`"
+#echo "Rust targets: `rustup target list | grep $RUST_TARGET`"
 
 
 
@@ -143,7 +136,12 @@ mix release --overwrite
 cd _build/ios_prod/rel/default_release/
 ls -lah 
 
-ARCHIVE="$BASE/todoapp/app.zip"
+ARCHIVE="$BASE/Sources/app.zip"
+
+if [ -f "$ARCHIVE" ]; then
+  rm "$ARCHIVE"
+fi
+
 echo "BASE: $BASE"
 # 1. Create the initial archive (excluding .so files) -q = quiet
 

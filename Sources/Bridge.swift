@@ -11,10 +11,13 @@ import Network
 import ZIPFoundation
 import SwiftUI
 import os
+import SystemConfiguration.CaptiveNetwork
 
 //@MainActor
 class Bridge: NSObject, ObservableObject {
     private let logger = Logger(subsystem: "Bridge", category: "Networking");
+    
+    static let randomBridgePort = UInt16.random(in: 49152...65535)
     
     @Published var progress: Progress = Progress()
     @Published var state: BridgeState = .unknown
@@ -23,6 +26,15 @@ class Bridge: NSObject, ObservableObject {
     static let shared: Bridge = {
         let instance = Bridge()
         do {
+            
+            /*DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                let appZip = Bundle.main.url(forResource: "app", withExtension: "zip")
+                print("Bridge init: \(String(describing: appZip))")
+            }*/
+            
+            
+            
+            
             //try instance.unpackApp();
             //try instance.setup();
         } catch(let e) {
@@ -48,6 +60,10 @@ class Bridge: NSObject, ObservableObject {
         
         //loadURL()
     }*/
+    
+    func getBridgePort() -> UInt16 {
+        return Self.randomBridgePort
+    }
     
     func setURL(url :String?) {
         if let lastURLString = url {
@@ -125,6 +141,12 @@ class Bridge: NSObject, ObservableObject {
     }
     
     func unpackApp() throws {
+        
+        /*if (Bundle.main.url(forResource: "app", withExtension: "zip") == nil ) {
+            print("Bundle lookup app.zip not ready")
+            return
+        }*/
+        
         let infoAttr = try FileManager.default.attributesOfItem(atPath: zipFile().path)
         let infoDate = infoAttr[FileAttributeKey.creationDate] as! Date
         let build = UserDefaults.standard.string(forKey: "app_build_date")
@@ -134,8 +156,6 @@ class Bridge: NSObject, ObservableObject {
         }
         
         print("Preparing app files \(infoDate.description) installed: \(String(describing: build))")
-        
-        Thread.sleep(forTimeInterval: 2.5)
         
         let appdir = home.appendingPathComponent("app")
         let info = appdir.appendingPathComponent("releases").appendingPathComponent("start_erl.data")
@@ -147,8 +167,6 @@ class Bridge: NSObject, ObservableObject {
             try unzipApp(dest: appdir)
             UserDefaults.standard.set(infoDate.description, forKey: "app_build_date")
         }
-        
-        Thread.sleep(forTimeInterval: 2.5)
         
         DispatchQueue.main.async {
             self.state = .unpacked
@@ -182,7 +200,7 @@ class Bridge: NSObject, ObservableObject {
     }
     
     static func port() -> NWEndpoint.Port {
-        return NWEndpoint.Port("23115")!
+        return NWEndpoint.Port(rawValue: randomBridgePort)!
     }
     
     func setEnv(name: String, value: String) {
@@ -210,6 +228,85 @@ class Bridge: NSObject, ObservableObject {
         }
     }
     
+    func getHostname() -> String {
+        // Method 1: Using ProcessInfo (Recommended for most cases)
+        // This gets the "Computer Name" as set in System Preferences.
+        let hostname = ProcessInfo.processInfo.hostName
+        return hostname
+
+        // Method 2: Using gethostname() (POSIX function - less preferred)
+        // This gets the lower-level hostname. It *might* be different from
+        // the user-friendly "Computer Name".
+        // var hostName = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+        // guard gethostname(&hostName, hostName.count) == 0 else {
+        //   return "unknown" // Or handle the error appropriately
+        // }
+        // return String(cString: hostName)
+    }
+    
+    func getPlatformSuffix() -> String {
+        #if os(macOS)
+        return "macos"
+        #elseif os(iOS)
+        // Further differentiate between iPhone/iPad and simulator
+        #if targetEnvironment(simulator)
+        return "iossimulator"
+        #else
+        return "ios"
+        #endif
+        #elseif os(tvOS)
+        return "tvos"
+        #elseif os(watchOS)
+        return "watchos" // Added watchOS support
+        #else
+        return "unknown" // Handle other platforms if needed
+        #endif
+    }
+    
+    func platformSpecificData() -> String {
+        #if os(iOS)
+        return "iOS \(UIDevice.current.model)" // Use UIDevice.current
+        #endif
+        #if os(macOS)
+        return "macOS" //Add macOS Value
+        #endif
+    }
+    
+    func getLocalIPAddress() -> String? {
+        var address: String?
+
+        // Get list of all interfaces on the local machine:
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddr) == 0 else { return nil }
+        guard let firstAddr = ifaddr else { return nil }
+
+        defer { freeifaddrs(ifaddr) } // Deallocate memory
+
+        // Loop through linked list of interfaces
+        for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
+            let interface = ifptr.pointee
+
+            // Check for IPv4 or IPv6 interface:
+            let addrFamily = interface.ifa_addr.pointee.sa_family
+            if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
+
+                // Check interface name:
+                let name = String(cString: interface.ifa_name)
+                if  name == "en0" || name == "en1" || name == "en2" || name == "en3" || name == "en4" || name == "pdp_ip0" || name == "pdp_ip1" || name == "pdp_ip2" || name == "pdp_ip3" {
+
+                    // Convert interface address to a human readable string:
+                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
+                                &hostname, socklen_t(hostname.count),
+                                nil, socklen_t(0), NI_NUMERICHOST)
+                    address = String(cString: hostname)
+                }
+            }
+        }
+        return address
+    }
+    
+    
     func stateDidChange(to newState: NWListener.State) {
         
         switch newState {
@@ -236,7 +333,13 @@ class Bridge: NSObject, ObservableObject {
             let logdir = urls[0].path
             let appdir = home.appendingPathComponent("app")
             
-            let result = start_erlang(appdir.path, logdir)
+            guard let localIp = getLocalIPAddress() else {
+                logger.info("Could not determine local IP address")
+                return
+            }
+            
+            // getLocalIPAddress()!
+            let result = start_erlang(appdir.path, logdir, "\(getPlatformSuffix())@\(localIp)") // @127.0.0.1
             let swiftResult = handleErlangStartResult(String(cString: result!))
             
             switch swiftResult {
@@ -405,7 +508,9 @@ class ServerConnection {
                 var response = ref
                 if (method == ":getOsDescription") {
                     self.logger.debug(":getOsDescription")
-                    response.append(self.dataToList(string: "iOS \(UIDevice().model)"))
+                    
+                    
+                    response.append(self.dataToList(string: "iOS \(Bridge.shared.platformSpecificData())"))
                 } else if (method == ":getCanonicalName") {
                     self.logger.debug(":getCanonicalName")
                     //val primaryLocale = getCurrentLocale(applicationContext)

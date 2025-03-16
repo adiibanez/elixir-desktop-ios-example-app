@@ -3,13 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		006E2D52807F6A3080FFD242 /* LvnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEE9CE3CA97E785CDA2BA2 /* LvnView.swift */; };
 		053A988C766C7D15CA592228 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD136698C0A6F68D2FACC5 /* Bridge.swift */; };
-		0D77C6FE2D7B184500C6E56D /* liberlang.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */; };
+		0D3996882D7CF75B000194DF /* app.zip in Resources */ = {isa = PBXBuildFile; fileRef = 0D3996872D7CF75B000194DF /* app.zip */; };
+		0D3996892D7CF75B000194DF /* app.zip in Resources */ = {isa = PBXBuildFile; fileRef = 0D3996872D7CF75B000194DF /* app.zip */; };
+		0D3DA0082D8601500004675B /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCC9FAC2D83C40600A7507D /* CoreBluetooth.framework */; };
+		0D3DA00B2D86015F0004675B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCC9FAE2D83C4BA00A7507D /* Foundation.framework */; };
+		0D3DA00D2D8601610004675B /* liberlang.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3FB98D2D8103AD00D20599 /* liberlang.xcframework */; };
+		0D3DA0112D8602DA0004675B /* LiveViewNativeBleClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0D3DA0102D8602DA0004675B /* LiveViewNativeBleClient */; };
 		0D77C7012D7B186800C6E56D /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 0D77C7002D7B186800C6E56D /* ZIPFoundation */; };
 		0D77C7042D7B18C500C6E56D /* native-lib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7032D7B18C500C6E56D /* native-lib.cpp */; };
 		0D77C7072D7B1F8000C6E56D /* LvnSocketSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7062D7B1F8000C6E56D /* LvnSocketSingleton.swift */; };
@@ -20,12 +25,8 @@
 		0D77C70E2D7B8D4600C6E56D /* AuthTokenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C70C2D7B8D4600C6E56D /* AuthTokenHelper.swift */; };
 		0D77C7102D7BC4A700C6E56D /* BridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C70F2D7BC49800C6E56D /* BridgeView.swift */; };
 		0D77C7112D7BC4A700C6E56D /* BridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C70F2D7BC49800C6E56D /* BridgeView.swift */; };
-		0D77C7132D7C600E00C6E56D /* BridgeView.swift_baremin.txt in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7122D7C600B00C6E56D /* BridgeView.swift_baremin.txt */; };
-		0D77C7142D7C600E00C6E56D /* BridgeView.swift_baremin.txt in Sources */ = {isa = PBXBuildFile; fileRef = 0D77C7122D7C600B00C6E56D /* BridgeView.swift_baremin.txt */; };
 		0D77C7192D7C6B9A00C6E56D /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 0D77C7182D7C6B9A00C6E56D /* ZIPFoundation */; };
-		0D77C71A2D7C8BFD00C6E56D /* liberlang.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */; };
-		0D77C71B2D7C8BFD00C6E56D /* liberlang.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		106783D72ACA436B8979E534 /* app.zip in Resources */ = {isa = PBXBuildFile; fileRef = E6F25079CE334DF4B50A5BC6 /* app.zip */; };
+		0DCC9FB12D83C4CA00A7507D /* libobjc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCC9FB02D83C4CA00A7507D /* libobjc.tbd */; };
 		13288D6EE92B792E9A305D88 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B422737032CD674B85CA7024 /* ContentView.swift */; };
 		23AC277B421B56ABE2D65816 /* ConnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C301747EE0D63B1833836931 /* ConnectingView.swift */; };
 		312ACEAABF88A22DAC33F27E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98479508E49EE74A791031F8 /* Preview Assets.xcassets */; };
@@ -35,7 +36,6 @@
 		5FC03FC31393BF5E907CAECA /* TodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399EC91FACCC986130B6D54A /* TodoApp.swift */; };
 		69D43F182DF6093B50F07604 /* DisconnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96961486954FAB6ECC0EE35 /* DisconnectedView.swift */; };
 		8135669B2755194FC8AD5DE4 /* ReconnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF91BFB0214A98B1E20E61D /* ReconnectingView.swift */; };
-		8695E9A4D2A37E8C36A0E63A /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2711918EB38A03416D2EADDC /* WebViewController.swift */; };
 		8819FD140B17382269F65839 /* LvnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEE9CE3CA97E785CDA2BA2 /* LvnView.swift */; };
 		8F305B3BFB17CB15F2A73EE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22889DCC2FD9987DFD9A34F7 /* Assets.xcassets */; };
 		9007D4F3BAA59F346E51ADA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0429CC3EE3EADFCFDE2549A0 /* Assets.xcassets */; };
@@ -44,13 +44,11 @@
 		AF8FFE9CC3C1B737EA7E54CD /* LiveViewNative in Frameworks */ = {isa = PBXBuildFile; productRef = 669B1074A78B64684F95EA75 /* LiveViewNative */; };
 		AFC7B9CD23CBF95027391F21 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C295580DC5EF2701E92AB6 /* ErrorView.swift */; };
 		B7BB015E88121A4415A71E26 /* ConnectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C301747EE0D63B1833836931 /* ConnectingView.swift */; };
-		BC9C22414A8AD2FF352F7628 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2711918EB38A03416D2EADDC /* WebViewController.swift */; };
 		BDF053E30A8FE2B3DB87C92E /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89AD136698C0A6F68D2FACC5 /* Bridge.swift */; };
 		BE4597BAC658F666175AAA2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22889DCC2FD9987DFD9A34F7 /* Assets.xcassets */; };
 		CAC8B4A136B21B6FCC6F8BD6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98479508E49EE74A791031F8 /* Preview Assets.xcassets */; };
 		D3DE5FC78736AFC1AD01752F /* DisconnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96961486954FAB6ECC0EE35 /* DisconnectedView.swift */; };
 		E466C529F6B8E6D7549045E7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B422737032CD674B85CA7024 /* ContentView.swift */; };
-		E9429B1408B71DC3A549CFFC /* app.zip in Resources */ = {isa = PBXBuildFile; fileRef = E6F25079CE334DF4B50A5BC6 /* app.zip */; };
 		EE7D6441C5EA07A5975AC5A3 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD28016A538625BC28F20EA /* WebView.swift */; };
 		FF1492E3075F97570703C68E /* TodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399EC91FACCC986130B6D54A /* TodoApp.swift */; };
 /* End PBXBuildFile section */
@@ -62,7 +60,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0D77C71B2D7C8BFD00C6E56D /* liberlang.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,17 +69,19 @@
 /* Begin PBXFileReference section */
 		00C295580DC5EF2701E92AB6 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		0429CC3EE3EADFCFDE2549A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = liberlang.xcframework; sourceTree = "<group>"; };
+		0D3996872D7CF75B000194DF /* app.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = app.zip; sourceTree = "<group>"; };
+		0D3FB98D2D8103AD00D20599 /* liberlang.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = liberlang.xcframework; sourceTree = "<group>"; };
 		0D77C7022D7B18C500C6E56D /* native-lib.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "native-lib.hpp"; sourceTree = "<group>"; };
 		0D77C7032D7B18C500C6E56D /* native-lib.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "native-lib.cpp"; sourceTree = "<group>"; };
 		0D77C7062D7B1F8000C6E56D /* LvnSocketSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LvnSocketSingleton.swift; sourceTree = "<group>"; };
 		0D77C7092D7B8CA200C6E56D /* iOSAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSAppDelegate.swift; sourceTree = "<group>"; };
 		0D77C70C2D7B8D4600C6E56D /* AuthTokenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenHelper.swift; sourceTree = "<group>"; };
 		0D77C70F2D7BC49800C6E56D /* BridgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeView.swift; sourceTree = "<group>"; };
-		0D77C7122D7C600B00C6E56D /* BridgeView.swift_baremin.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = BridgeView.swift_baremin.txt; sourceTree = "<group>"; };
+		0DCC9FAC2D83C40600A7507D /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS18.2.sdk/System/Library/Frameworks/CoreBluetooth.framework; sourceTree = DEVELOPER_DIR; };
+		0DCC9FAE2D83C4BA00A7507D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS18.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		0DCC9FB02D83C4CA00A7507D /* libobjc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libobjc.tbd; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS18.2.sdk/usr/lib/libobjc.tbd; sourceTree = DEVELOPER_DIR; };
 		1CFFFB1FF207131D19A918F7 /* SensoctoAppErlang Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SensoctoAppErlang Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		22889DCC2FD9987DFD9A34F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2711918EB38A03416D2EADDC /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		399EC91FACCC986130B6D54A /* TodoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoApp.swift; sourceTree = "<group>"; };
 		5EF91BFB0214A98B1E20E61D /* ReconnectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReconnectingView.swift; sourceTree = "<group>"; };
 		65E064FF9BC1B716E9FA4C29 /* SensoctoAppErlang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SensoctoAppErlang.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,7 +93,6 @@
 		B422737032CD674B85CA7024 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C301747EE0D63B1833836931 /* ConnectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectingView.swift; sourceTree = "<group>"; };
 		E2AEE9CE3CA97E785CDA2BA2 /* LvnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LvnView.swift; sourceTree = "<group>"; };
-		E6F25079CE334DF4B50A5BC6 /* app.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = app.zip; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,8 +100,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D77C6FE2D7B184500C6E56D /* liberlang.xcframework in Frameworks */,
+				0D3DA0112D8602DA0004675B /* LiveViewNativeBleClient in Frameworks */,
+				0D3DA00D2D8601610004675B /* liberlang.xcframework in Frameworks */,
+				0DCC9FB12D83C4CA00A7507D /* libobjc.tbd in Frameworks */,
+				0D3DA00B2D86015F0004675B /* Foundation.framework in Frameworks */,
 				58500DB3F19802DC94337F19 /* LiveViewNative in Frameworks */,
+				0D3DA0082D8601500004675B /* CoreBluetooth.framework in Frameworks */,
 				0D77C7012D7B186800C6E56D /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,7 +114,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D77C71A2D7C8BFD00C6E56D /* liberlang.xcframework in Frameworks */,
 				AF8FFE9CC3C1B737EA7E54CD /* LiveViewNative in Frameworks */,
 				0D77C7192D7C6B9A00C6E56D /* ZIPFoundation in Frameworks */,
 			);
@@ -124,6 +125,9 @@
 		0D77C6FF2D7B186800C6E56D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0DCC9FB02D83C4CA00A7507D /* libobjc.tbd */,
+				0DCC9FAE2D83C4BA00A7507D /* Foundation.framework */,
+				0DCC9FAC2D83C40600A7507D /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -133,7 +137,7 @@
 			children = (
 				0D77C7022D7B18C500C6E56D /* native-lib.hpp */,
 				0D77C7032D7B18C500C6E56D /* native-lib.cpp */,
-				0D77C6FD2D7B184500C6E56D /* liberlang.xcframework */,
+				0D3FB98D2D8103AD00D20599 /* liberlang.xcframework */,
 				507963BE776E3D41B87520DD /* Sources */,
 				42CAA21B6088BE0A7AAF9ADE /* Products */,
 				0D77C6FF2D7B186800C6E56D /* Frameworks */,
@@ -152,13 +156,12 @@
 		507963BE776E3D41B87520DD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0D77C7122D7C600B00C6E56D /* BridgeView.swift_baremin.txt */,
+				0D3996872D7CF75B000194DF /* app.zip */,
 				0D77C70F2D7BC49800C6E56D /* BridgeView.swift */,
 				0D77C7092D7B8CA200C6E56D /* iOSAppDelegate.swift */,
 				0D77C7062D7B1F8000C6E56D /* LvnSocketSingleton.swift */,
 				0D77C70C2D7B8D4600C6E56D /* AuthTokenHelper.swift */,
 				B21D3940CE59A3D5566E1DB3 /* Preview Content */,
-				E6F25079CE334DF4B50A5BC6 /* app.zip */,
 				0429CC3EE3EADFCFDE2549A0 /* Assets.xcassets */,
 				89AD136698C0A6F68D2FACC5 /* Bridge.swift */,
 				C301747EE0D63B1833836931 /* ConnectingView.swift */,
@@ -170,7 +173,6 @@
 				5EF91BFB0214A98B1E20E61D /* ReconnectingView.swift */,
 				399EC91FACCC986130B6D54A /* TodoApp.swift */,
 				6AD28016A538625BC28F20EA /* WebView.swift */,
-				2711918EB38A03416D2EADDC /* WebViewController.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -226,6 +228,7 @@
 			packageProductDependencies = (
 				8BD15E5FAC24662A59092A95 /* LiveViewNative */,
 				0D77C7002D7B186800C6E56D /* ZIPFoundation */,
+				0D3DA0102D8602DA0004675B /* LiveViewNativeBleClient */,
 			);
 			productName = SensoctoAppErlang;
 			productReference = 65E064FF9BC1B716E9FA4C29 /* SensoctoAppErlang.app */;
@@ -252,6 +255,7 @@
 			packageReferences = (
 				3B0BDD9893918A31A8C26E81 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */,
 				DB1FBC3D8599AE5803B49B12 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+				0D3DA00F2D8602DA0004675B /* XCLocalSwiftPackageReference "local/liveview-native-swiftui-bleclient" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -268,9 +272,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				476637B2B47D7DB5B307163B /* Assets.xcassets in Resources */,
+				0D3996892D7CF75B000194DF /* app.zip in Resources */,
 				8F305B3BFB17CB15F2A73EE7 /* Assets.xcassets in Resources */,
 				312ACEAABF88A22DAC33F27E /* Preview Assets.xcassets in Resources */,
-				E9429B1408B71DC3A549CFFC /* app.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,9 +283,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9007D4F3BAA59F346E51ADA4 /* Assets.xcassets in Resources */,
+				0D3996882D7CF75B000194DF /* app.zip in Resources */,
 				BE4597BAC658F666175AAA2B /* Assets.xcassets in Resources */,
 				CAC8B4A136B21B6FCC6F8BD6 /* Preview Assets.xcassets in Resources */,
-				106783D72ACA436B8979E534 /* app.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +294,6 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0D77C7052D7B1D7600C6E56D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -316,7 +319,6 @@
 				BDF053E30A8FE2B3DB87C92E /* Bridge.swift in Sources */,
 				0D77C7042D7B18C500C6E56D /* native-lib.cpp in Sources */,
 				23AC277B421B56ABE2D65816 /* ConnectingView.swift in Sources */,
-				0D77C7142D7C600E00C6E56D /* BridgeView.swift_baremin.txt in Sources */,
 				0D77C7082D7B1F8000C6E56D /* LvnSocketSingleton.swift in Sources */,
 				E466C529F6B8E6D7549045E7 /* ContentView.swift in Sources */,
 				D3DE5FC78736AFC1AD01752F /* DisconnectedView.swift in Sources */,
@@ -327,7 +329,6 @@
 				9827E208CBB4BFE426BDB9A9 /* ReconnectingView.swift in Sources */,
 				FF1492E3075F97570703C68E /* TodoApp.swift in Sources */,
 				EE7D6441C5EA07A5975AC5A3 /* WebView.swift in Sources */,
-				BC9C22414A8AD2FF352F7628 /* WebViewController.swift in Sources */,
 				0D77C70E2D7B8D4600C6E56D /* AuthTokenHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,7 +343,6 @@
 				13288D6EE92B792E9A305D88 /* ContentView.swift in Sources */,
 				69D43F182DF6093B50F07604 /* DisconnectedView.swift in Sources */,
 				AFC7B9CD23CBF95027391F21 /* ErrorView.swift in Sources */,
-				0D77C7132D7C600E00C6E56D /* BridgeView.swift_baremin.txt in Sources */,
 				006E2D52807F6A3080FFD242 /* LvnView.swift in Sources */,
 				0D77C7112D7BC4A700C6E56D /* BridgeView.swift in Sources */,
 				8135669B2755194FC8AD5DE4 /* ReconnectingView.swift in Sources */,
@@ -350,7 +350,6 @@
 				5FC03FC31393BF5E907CAECA /* TodoApp.swift in Sources */,
 				0D77C70D2D7B8D4600C6E56D /* AuthTokenHelper.swift in Sources */,
 				9A26F2EA2B625BE65FCCFCB5 /* WebView.swift in Sources */,
-				8695E9A4D2A37E8C36A0E63A /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +422,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "native-lib.hpp";
@@ -531,6 +531,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "native-lib.hpp";
@@ -550,6 +551,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = TodoApp;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = BLEClient;
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = BLEClient;
+				INFOPLIST_KEY_NSBluetoothWhileInUseUsageDescription = BLEClient;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
@@ -577,11 +579,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 46KPTB8WG4;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TodoApp;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = BLEClient;
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = BLEClient;
+				INFOPLIST_KEY_NSBluetoothWhileInUseUsageDescription = BLEClient;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
@@ -636,6 +639,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		0D3DA00F2D8602DA0004675B /* XCLocalSwiftPackageReference "local/liveview-native-swiftui-bleclient" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "local/liveview-native-swiftui-bleclient";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		3B0BDD9893918A31A8C26E81 /* XCRemoteSwiftPackageReference "liveview-client-swiftui" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -656,6 +666,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0D3DA0102D8602DA0004675B /* LiveViewNativeBleClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LiveViewNativeBleClient;
+		};
 		0D77C7002D7B186800C6E56D /* ZIPFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DB1FBC3D8599AE5803B49B12 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
