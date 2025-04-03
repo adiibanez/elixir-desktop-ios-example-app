@@ -50,7 +50,13 @@ struct BridgeView: View {
                     .padding()
             }
             Text("Test \(bridge.lastURL?.absoluteString ?? "")")
-        }.onChange(of: bridge.state, perform: updateUI)
+        }.onChange(of: bridge.state) { oldState, newState in
+            DispatchQueue.main.async {
+                print("Bridge state changed to: \(newState)") // Debugging log
+                statusText = "Bridge Status: \(bridgeStateMessage(newState))"
+                statusColor = bridgeStateColor(newState)
+            }
+        }
         
         /*}.background(
          Color.clear.onAppear {
@@ -59,13 +65,13 @@ struct BridgeView: View {
          )*/
     }
     
-    func updateUI(_ state: BridgeState) {
+    /*func updateUI(_ state: BridgeState) {
         DispatchQueue.main.async {
             print("Bridge state changed to: \(state)") // Debugging log
             statusText = "Bridge Status: \(bridgeStateMessage(state))"
             statusColor = bridgeStateColor(state)
         }
-    }
+    }*/
     
     func bridgeStateColor(_ state: BridgeState) -> Color {
         switch state {

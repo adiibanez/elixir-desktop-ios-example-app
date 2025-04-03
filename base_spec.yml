@@ -14,6 +14,9 @@ packages:
  ZipFoundation:
    url: "https://github.com/weichsel/ZIPFoundation"
    from: "0.0.1"
+  LiveViewNativeBleClient:
+    url: "https://github.com/adiibanez/liveview-native-swiftui-bleclient"
+    from: "0.0.1"
 settings:
   GENERATE_INFOPLIST_FILE: YES
   CURRENT_PROJECT_VERSION: 1.0
@@ -54,7 +57,4 @@ settings:
   MACOSX_DEPLOYMENT_TARGET: 14.0
   CMAKE_OSX_DEPLOYMENT_TARGET: 14.0
   #CODE_SIGNING_REQUIRED: YES
-  #CODE_SIGN_IDENTITY: "Adrian Ibanez"
-  #DEVELOPMENT_TEAM: "7D9Z44N844"
-  DEVELOPMENT_TEAM: "46KPTB8WG4"
-#  CODE_SIGN_IDENTITY: "7D9Z44N844"
+  

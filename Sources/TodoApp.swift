@@ -63,6 +63,7 @@ struct TodoApp: App {
 
 struct ContentScreen: View {
     
+    @State private var onAppearProcessed = false
     //@State private var selectedTab: Int = 0
     @AppStorage("selectedTabViewTab") private var selectedTab: Int = 0
     
@@ -85,18 +86,24 @@ struct ContentScreen: View {
         }.onAppear(){
             //loadSelectedTab()
             Task {
-                
-                /*DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                 let appZip = Bundle.main.url(forResource: "app", withExtension: "zip")
-                 print("TodoApp onAppear: \(String(describing: appZip))")
-                 
-                 }*/
-                
-                //try Bridge.shared.unpackApp();
-                try Bridge.shared.setup();
+                /// triggered on ios
+                if( false && !onAppearProcessed ) {
+                    try Bridge.shared.unpackApp();
+                    try Bridge.shared.setup();
+                    onAppearProcessed = true
+                }
             }
         }.onChange(of: selectedTab) { oldTab, newTab in
             saveSelectedTab(newTab)
+        }.task{
+            // triggered on osx
+            Task {
+                if( false &&  !onAppearProcessed ) {
+                    try Bridge.shared.unpackApp();
+                    try Bridge.shared.setup();
+                    onAppearProcessed = true
+                }
+            }
         }
     }
     

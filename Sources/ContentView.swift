@@ -10,6 +10,11 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
+            Button("Reconnect LVN") {
+                Task {
+                    await LvnSocketSingleton.shared.session?.reconnect()
+                }
+            }
             if urlAvailable {
                 WebViewRepresentable(url: nil) // Pass nil initially, load later
                     .environmentObject(webViewModel) // Inject as EnvironmentObject

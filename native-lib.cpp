@@ -102,9 +102,10 @@ const char* startErlang(std::string root_dir, std::string log_dir, const char *a
         "-boot_var", "RELEASE_LIB", lib_path.c_str(),
         "--", "--", "-name", node_identifier,
         "-setcookie", "testlitest",
-        "-kernel", "inet_dist_use_interface", "{192,168,1,193}",
-        "-extra", "--no-halt",
+        "-kernel","-extra", "--no-halt",
     };
+    
+    // "inet_dist_use_interface", "{192,168,1,193}",
     
     LOG_INFO("Starting Erlang...");
     try {

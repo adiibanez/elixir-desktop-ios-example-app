@@ -31,26 +31,38 @@ export MIX_TARGET=ios
 mix local.hex --force --if-missing
 mix local.rebar --force --if-missing
 
-rsync -av --delete --exclude 'native' \
-  --exclude 'deps' \
-  --exclude '_build' \
-  --exclude '.vscode' \
-  --exclude '.elixir_ls' \
-  --exclude "priv/share/xcodegen" \
-  --exclude "priv/templates/lvn.swiftui.gen" \
-  ../elixir_desktop_lvn/ elixir-app
+APP_PATH=../elixir_desktop_lvn/
+RELEASE_PATH=_build/ios_prod/rel/default_release/
+# APP_PATH=../../sensocto/
+# RELEASE_PATH=_build/ios_prod/rel/sensocto/
 
-# if [ ! -d "elixir-app" ]; then
-#   #git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
-#   git clone https://github.com/adiibanez/elixir-desktop-example-lvn elixir-app
-#   # git clone --local ../desktop-example-app elixir-app
-#   #ln -s ../desktop-example-app elixir-app
-# else
-#   cd elixir-app
-#   git reset --hard
-#   git pull
-#   cd ..
-# fi
+# rsync -av --delete --exclude 'native' \
+#   --exclude 'test/' \
+#   --exclude '_*' \
+#   --exclude '.*' \
+#   --exclude '.git' \
+#   --exclude 'deps' \
+#   --exclude '_build' \
+#   --exclude '.vscode' \
+#   --exclude '.elixir_ls' \
+#   --exclude "priv/share/xcodegen" \
+#   --exclude "priv/static/assets" \
+#   --exclude "priv/templates/lvn.swiftui.gen" \
+#   $APP_PATH elixir-app
+
+# cp runtime.exs elixir-app/config/runtime.exs
+
+if [ ! -d "elixir-app" ]; then
+  #git clone https://github.com/adiibanez/desktop-example-app.git elixir-app
+  git clone https://github.com/adiibanez/elixir-desktop-example-lvn elixir-app
+  # git clone --local ../desktop-example-app elixir-app
+  #ln -s ../desktop-example-app elixir-app
+else
+  cd elixir-app
+  git reset --hard
+  git pull
+  cd ..
+fi
 
 #git pull origin
 
@@ -108,8 +120,6 @@ fi
 echo "Building for platform: $PLATFORM_NAME, architecture: $ARCHS, Rust target: $RUST_TARGET"
 #echo "Rust targets: `rustup target list | grep $RUST_TARGET`"
 
-
-
 #echo "FIND files ..."
 # find . -name start_erl.data
 # find . -name asn1rt_nif.so -exec chmod 775 {} \; || true
@@ -125,6 +135,8 @@ echo "Building for platform: $PLATFORM_NAME, architecture: $ARCHS, Rust target: 
 # find . -name asn1rt_nif.so -exec chown $(whoami) {} \;
 # find . -name asn1rt_nif.so -exec chmod 775 {} \;
 
+#rm -f config/runtime.ex
+
 mix release --overwrite
 
 # find . -name asn1rt_nif.so -exec ls -lah {} \;
@@ -133,7 +145,7 @@ mix release --overwrite
 
 #cd _build/ios_prod/rel/todo_app
 
-cd _build/ios_prod/rel/default_release/
+cd $RELEASE_PATH
 ls -lah 
 
 ARCHIVE="$BASE/Sources/app.zip"
